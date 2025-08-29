@@ -1,7 +1,18 @@
+import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
+import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
+import 'package:e_commerce_app/controllers/cart/cart_repo.dart';
+import 'package:e_commerce_app/controllers/product/product_cubit.dart';
+import 'package:e_commerce_app/controllers/product/product_repo.dart';
+import 'package:e_commerce_app/controllers/wishlist/wishlist_cubit.dart';
+import 'package:e_commerce_app/controllers/wishlist/wishlist_repo.dart';
+import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
+import 'package:e_commerce_app/controllers/auth/auth_repo.dart';
+import 'package:e_commerce_app/services/auth_service.dart';
+import 'package:e_commerce_app/services/firestore_service.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,9 +28,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: HomeScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => BottomNavCubit()),
+        BlocProvider(create: (_) => WishlistCubit(WishlistRepository())),
+        BlocProvider(create: (_) => ProductCubit(ProductRepository(FirestoreService()))),
+        BlocProvider(create: (_) => CartCubit(CartRepository())),
+        BlocProvider(create: (_) => AuthCubit(AuthRepository(AuthService()))),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        home: HomeScreen(),
+      ),
     );
   }
 }

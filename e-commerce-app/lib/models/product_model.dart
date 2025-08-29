@@ -8,6 +8,8 @@ class ProductModel{
   String? category;
   String? image;
   Rating? rating;
+  bool isAddedToCart = false;
+  bool isAddedToWishlist = false;
 
   ProductModel({
     this.id,

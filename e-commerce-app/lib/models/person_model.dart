@@ -1,36 +1,40 @@
 class Person {
+  String uid;
   String name;
   String username;
   int? age;
   String email;
-  String password;
   String? phoneNumber;
+  String? imageUrl;
 
   Person({
+    required this.uid,
     required this.name,
     required this.username,
     this.age,
     required this.email,
-    required this.password,
     this.phoneNumber,
+    this.imageUrl,
   });
 
   Person.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
+      : uid = json['uid'],
+        name = json['name'],
         username = json['username'],
         age = json['age'],
         email = json['email'],
-        password = json['password'],
-        phoneNumber = json['phoneNumber'];
+        phoneNumber = json['phoneNumber'],
+        imageUrl = json['imageUrl'];
 
   Map<String, dynamic> toJson() {
     return {
+      'uid': uid,
       'name': name,
       'username': username,
       'age': age,
       'email': email,
-      'password': password,
       'phoneNumber': phoneNumber,
+      'imageUrl': imageUrl,
     };
   }
 }
