@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             currentIndex: currentIndex,
             onTap: (index) => context.read<BottomNavCubit>().changeTab(index),
             type: BottomNavigationBarType.fixed,
-            showSelectedLabels: true,
+            showSelectedLabels: false,
             showUnselectedLabels: false,
             selectedItemColor: const Color(0xFF9775FA),
             unselectedItemColor: const Color(0xFF8F959E),

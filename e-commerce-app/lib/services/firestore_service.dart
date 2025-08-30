@@ -43,7 +43,9 @@ class FirestoreService {
   /// جلب كل المنتجات
   Future<List<ProductModel>> getProducts() async {
     try {
+      debugPrint("Fetching products from Firestore...");
       final snapshot = await _firestore.collection('products').get();
+      debugPrint("Products fetched: ${snapshot.docs.length}");
       return snapshot.docs.map((doc) {
         final data = doc.data();
         return ProductModel.fromJson(data);

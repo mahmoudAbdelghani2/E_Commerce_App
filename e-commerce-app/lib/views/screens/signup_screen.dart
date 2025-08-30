@@ -3,6 +3,7 @@
 import 'package:e_commerce_app/utils/app_colors.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:e_commerce_app/views/screens/login_screen.dart';
+import 'package:e_commerce_app/views/screens/open_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,10 +15,12 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isSwitched = false;
+  bool showValidationErrors = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             backgroundColor: const Color(0xFFF5F6FA),
             child: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const OpenScreen(),
+                ),
+              ),
             ),
           ),
         ),
@@ -40,6 +47,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       body: Form(
         key: _formKey,
+        autovalidateMode: showValidationErrors
+            ? AutovalidateMode.always
+            : AutovalidateMode.disabled,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -57,19 +67,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 32),
-                // Username
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Username',
-                    style: TextStyle(
-                      color: AppColors.secondaryText,
-                      fontSize: 15,
-                    ),
+                const SizedBox(height: 130),
+                TextFormField(
+                  controller: _nameController,
+                  style: const TextStyle(
+                    color: AppColors.primaryText,
+                    fontWeight: FontWeight.w500,
                   ),
+                  decoration: InputDecoration(
+                    label: Text('Name'),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFE7E6E9)),
+                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.buttonInSubmit),
+                    ),
+                    suffixIcon: (_formKey.currentState?.validate() ?? false)
+                        ? Icon(Icons.check, color: Color(0xFF34C559))
+                        : null,
+                    errorMaxLines: 2,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    if (value.trim().length < 3) {
+                      return 'Name must be at least 3 characters long';
+                    }
+                    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                      return 'Name can only contain letters';
+                    }
+                    return null;
+                  },
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 18),
                 TextFormField(
                   controller: _usernameController,
                   style: const TextStyle(
@@ -77,32 +108,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Esther Howard',
-                    hintStyle: TextStyle(
-                      color: AppColors.primaryText.withOpacity(0.7),
-                    ),
+                    label: Text('Username'),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFFE7E6E9)),
                     ),
                     focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: AppColors.buttonInSubmit),
                     ),
-                    suffixIcon: Icon(Icons.check, color: Color(0xFF34C559)),
+                    suffixIcon: (_formKey.currentState?.validate() ?? false)
+                        ? Icon(Icons.check, color: Color(0xFF34C559))
+                        : null,
+                    errorMaxLines: 2,
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your username';
+                    }
+                    if (value.trim().length < 6) {
+                      return 'Username must be at least 6 characters';
+                    }
+                    if (!RegExp(r'[a-z]').hasMatch(value)) {
+                      return 'Username must contain at least one lowercase letter';
+                    }
+                    if (!RegExp(r'\d').hasMatch(value)) {
+                      return 'Username must contain at least one number';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 18),
-                // Password
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Password',
-                    style: TextStyle(
-                      color: AppColors.secondaryText,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 4),
                 TextFormField(
                   controller: _passwordController,
                   obscureText: true,
@@ -111,45 +145,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'HJ@#9783kja',
-                    hintStyle: TextStyle(
-                      color: AppColors.primaryText.withOpacity(0.7),
-                    ),
+                    label: Text('Password'),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFFE7E6E9)),
                     ),
                     focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: AppColors.buttonInSubmit),
                     ),
-                    suffix: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text(
-                          'Strong',
-                          style: TextStyle(
-                            color: Color(0xFF34C559),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(Icons.check, color: Color(0xFF34C559), size: 20),
-                      ],
-                    ),
+                    suffixIcon: (_formKey.currentState?.validate() ?? false)
+                        ? Icon(Icons.check, color: Color(0xFF34C559))
+                        : null,
+                    errorMaxLines: 2,
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    if (value.length < 8) {
+                      return 'Password must be at least 8 characters';
+                    }
+                    if (!RegExp(r'[a-z]').hasMatch(value)) {
+                      return 'Password must contain at least one lowercase letter';
+                    }
+                    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                      return 'Password must contain at least one uppercase letter';
+                    }
+                    if (!RegExp(r'\d').hasMatch(value)) {
+                      return 'Password must contain at least one number';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 18),
-                // Email
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Email Address',
-                    style: TextStyle(
-                      color: AppColors.secondaryText,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 4),
                 TextFormField(
                   controller: _emailController,
                   style: const TextStyle(
@@ -157,44 +184,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'bill.sanders@example.com',
-                    hintStyle: TextStyle(
-                      color: AppColors.primaryText.withOpacity(0.7),
-                    ),
+                    label: Text('Email'),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFFE7E6E9)),
                     ),
                     focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: AppColors.buttonInSubmit),
                     ),
-                    suffixIcon: Icon(Icons.check, color: Color(0xFF34C559)),
+                    suffixIcon: (_formKey.currentState?.validate() ?? false)
+                        ? Icon(Icons.check, color: Color(0xFF34C559))
+                        : null,
+                    errorMaxLines: 2,
                   ),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Please enter your email';
+                    }
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value.trim())) {
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 18),
-                // Remember Me
-                Row(
-                  children: [
-                    Text(
-                      'Remember me',
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontSize: 15,
-                      ),
+                SwitchListTile(
+                  title: Text(
+                    'Remember me',
+                    style: TextStyle(
+                      color: AppColors.primaryText,
+                      fontSize: 15,
                     ),
-                    const Spacer(),
-                    Switch(
-                      value: isSwitched,
-                      activeColor: AppColors.buttonInSubmit,
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched = value;
-                        });
-                      },
-                    ),
-                  ],
+                  ),
+                  value: isSwitched,
+                  onChanged: (value) {
+                    setState(() {
+                      isSwitched = value;
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  activeColor: Colors.white,
+                  activeTrackColor: Colors.green,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.grey,
                 ),
+
                 const SizedBox(height: 32),
-                // زر Sign Up
                 SizedBox(
                   width: double.infinity,
                   height: 56,
@@ -207,6 +243,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       elevation: 0,
                     ),
                     onPressed: () {
+                      setState(() {
+                        showValidationErrors = true;
+                      });
                       if (_formKey.currentState!.validate()) {
                         Navigator.push(
                           context,

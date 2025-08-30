@@ -1,21 +1,19 @@
 class Person {
-  String uid;
-  String name;
-  String username;
+  static final Person _instance = Person._internal();
+
+  String uid = '';
+  String name = '';
+  String username = '';
   int? age;
-  String email;
+  String email = '';
   String? phoneNumber;
   String? imageUrl;
 
-  Person({
-    required this.uid,
-    required this.name,
-    required this.username,
-    this.age,
-    required this.email,
-    this.phoneNumber,
-    this.imageUrl,
-  });
+  factory Person() {
+    return _instance;
+  }
+
+  Person._internal();
 
   Person.fromJson(Map<String, dynamic> json)
       : uid = json['uid'],
@@ -36,5 +34,16 @@ class Person {
       'phoneNumber': phoneNumber,
       'imageUrl': imageUrl,
     };
+  }
+
+  // يمكنك إضافة دالة لتحديث البيانات من JSON
+  void updateFromJson(Map<String, dynamic> json) {
+    uid = json['uid'] ?? uid;
+    name = json['name'] ?? name;
+    username = json['username'] ?? username;
+    age = json['age'] ?? age;
+    email = json['email'] ?? email;
+    phoneNumber = json['phoneNumber'] ?? phoneNumber;
+    imageUrl = json['imageUrl'] ?? imageUrl;
   }
 }

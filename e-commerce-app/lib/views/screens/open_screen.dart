@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:e_commerce_app/utils/app_colors.dart';
-import 'package:e_commerce_app/views/screens/signup_screen.dart';
+import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class OpenScreen extends StatefulWidget {
@@ -13,32 +13,31 @@ class OpenScreen extends StatefulWidget {
 class _OpenScreenState extends State<OpenScreen> {
   bool isSelected1 = true;
   bool isSelected2 = false;
+  bool isMen = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // الخلفية بتدرج اللونين
           Container(
             decoration: const BoxDecoration(
               gradient: AppColors.mainGradient,
             ),
           ),
-          // صورة الشخص في المنتصف
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(top: 60.0),
+              padding: const EdgeInsets.only(top: 32.0, right: 40),
               child: Image.asset(
                 'assets/images/backgroundOpen.png',
-                height: 350,
-                fit: BoxFit.contain,
+                height: MediaQuery.of(context).size.height * 0.75,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
               ),
             ),
           ),
-          // الكارد الأبيض السفلي
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -82,7 +81,6 @@ class _OpenScreenState extends State<OpenScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // زر Men
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
@@ -116,7 +114,7 @@ class _OpenScreenState extends State<OpenScreen> {
                               ),
                             ),
                           ),
-                          // زر Women
+                          const SizedBox(width: 8),
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
@@ -153,14 +151,13 @@ class _OpenScreenState extends State<OpenScreen> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      // زر Skip
                       TextButton(
                         onPressed: () {
-                          // اللوجيك كما هو
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpScreen(),
+                              //ToDo => replace with SignUpScreen()
+                              builder: (context) => HomeScreen(),
                             ),
                           );
                         },

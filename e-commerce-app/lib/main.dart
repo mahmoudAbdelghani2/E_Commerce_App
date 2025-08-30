@@ -10,6 +10,8 @@ import 'package:e_commerce_app/controllers/auth/auth_repo.dart';
 import 'package:e_commerce_app/services/auth_service.dart';
 import 'package:e_commerce_app/services/firestore_service.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
+import 'package:e_commerce_app/views/screens/open_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,9 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirestoreService().uploadProductsFromJson();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -37,8 +42,18 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AuthCubit(AuthRepository(AuthService()))),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        home: HomeScreen(),
+        home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return HomeScreen();
+          } else {
+            return OpenScreen();
+          }
+        },
+      ),
       ),
     );
   }
