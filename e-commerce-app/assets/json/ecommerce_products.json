@@ -1,503 +1,381 @@
 [
   {
     "id": 1,
-    "title": "Nike Air Max Sneakers",
-    "price": 120,
-    "description": "Men's Nike Air Max running sneakers with lightweight cushioning.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/w1Z8d3h.jpg",
-    "rating": { "rate": 4.5, "count": 210 }
-  },
-  {
-    "id": 2,
-    "title": "Adidas Ultraboost Shoes",
-    "price": 140,
-    "description": "Men's Adidas Ultraboost trainers for running and everyday comfort.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/UfQ9sVF.jpg",
-    "rating": { "rate": 4.7, "count": 185 }
-  },
-  {
-    "id": 3,
-    "title": "Slim Fit Denim Jeans",
-    "price": 45,
-    "description": "Classic men's slim fit denim jeans, durable and comfortable.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/RgIVQkA.jpg",
-    "rating": { "rate": 4.2, "count": 132 }
-  },
-  {
-    "id": 4,
     "title": "Nike Training T-Shirt",
     "price": 30,
     "description": "Men's Nike Dri-FIT short sleeve training t-shirt.",
     "category": "men",
     "brand": "Nike",
-    "image": "https://i.imgur.com/GmmFO9h.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682426/1_1_k7zpcn.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682428/1_2_s3ielb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_5_rd4nf1.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682426/1_1_k7zpcn.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682428/1_2_s3ielb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_5_rd4nf1.jpg"
+    ],
     "rating": { "rate": 4.6, "count": 98 }
   },
   {
-    "id": 5,
+    "id": 2,
     "title": "Adidas Track Jacket",
     "price": 65,
     "description": "Lightweight Adidas track jacket with zip closure and pockets.",
     "category": "men",
     "brand": "Adidas",
-    "image": "https://i.imgur.com/7QGpM0g.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_fmmio7.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_1_wixxk0.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_fmmio7.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_fmmio7.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682425/2_4_i2iknl.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_1_wixxk0.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_fmmio7.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/2_fmmio7.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682425/2_4_i2iknl.jpg"
+    ],
     "rating": { "rate": 4.4, "count": 155 }
   },
   {
-    "id": 6,
-    "title": "Casual Polo Shirt",
-    "price": 28,
-    "description": "Men's cotton polo shirt, slim fit design for casual wear.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/8kP4oOw.jpg",
-    "rating": { "rate": 4.1, "count": 87 }
-  },
-  {
-    "id": 7,
-    "title": "Nike Sports Shorts",
-    "price": 35,
-    "description": "Men's Nike lightweight training shorts with adjustable waistband.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/hyR0sV0.jpg",
-    "rating": { "rate": 4.3, "count": 112 }
-  },
-  {
-    "id": 8,
-    "title": "Adidas Sweatpants",
-    "price": 55,
-    "description": "Comfortable Adidas men's jogger sweatpants for casual wear.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/X5ke5Rg.jpg",
-    "rating": { "rate": 4.6, "count": 174 }
-  },
-  {
-    "id": 9,
-    "title": "Casual Leather Belt",
-    "price": 20,
-    "description": "Men's genuine leather casual belt with metal buckle.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/AlMfQOv.jpg",
-    "rating": { "rate": 4.0, "count": 65 }
-  },
-  {
-    "id": 10,
-    "title": "Nike Running Cap",
-    "price": 18,
-    "description": "Lightweight men's Nike cap, ideal for running and training.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/RZzCdNc.jpg",
-    "rating": { "rate": 4.5, "count": 73 }
-  },
-  {
-    "id": 11,
-    "title": "Adidas Women's Running Shoes",
-    "price": 115,
-    "description": "Adidas Ultraboost women's running sneakers with responsive cushioning.",
-    "category": "women",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/nMhU0Df.jpg",
-    "rating": { "rate": 4.7, "count": 240 }
-  },
-  {
-    "id": 12,
-    "title": "Nike Women's Training Leggings",
-    "price": 48,
-    "description": "High-waisted Nike leggings with stretch fabric for workouts.",
-    "category": "women",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/lDZcSdO.jpg",
-    "rating": { "rate": 4.6, "count": 185 }
-  },
-  {
-    "id": 13,
+    "id": 3,
     "title": "Summer Floral Dress",
     "price": 52,
     "description": "Lightweight women's summer dress with floral print and soft fabric.",
     "category": "women",
     "brand": "Other",
-    "image": "https://i.imgur.com/WG1HJhz.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/3_opdjxp.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/3_1_suby9c.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/3_opdjxp.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/3_opdjxp.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/3_1_suby9c.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/3_opdjxp.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/3_opdjxp.jpg"
+    ],
     "rating": { "rate": 4.3, "count": 132 }
   },
   {
-    "id": 14,
+    "id": 4,
     "title": "Adidas Women's Sports Bra",
     "price": 35,
     "description": "Breathable Adidas sports bra for medium support activities.",
     "category": "women",
     "brand": "Adidas",
-    "image": "https://i.imgur.com/8vfcVbG.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/4_ledygr.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682429/4_1_q7c1di.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/4_2_hgteua.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/4_ledygr.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/4_ledygr.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682429/4_1_q7c1di.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/4_2_hgteua.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/4_ledygr.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682427/4_ledygr.jpg"
+    ],
     "rating": { "rate": 4.4, "count": 210 }
   },
   {
-    "id": 15,
+    "id": 5,
     "title": "Nike Women's Hoodie",
     "price": 60,
     "description": "Cozy Nike hoodie for women with adjustable hood and pocket.",
     "category": "women",
     "brand": "Nike",
-    "image": "https://i.imgur.com/98s8fRe.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682429/5_ogqoiq.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/5_1_vz7pk7.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/5_2_n33no6.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682429/5_ogqoiq.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/5_1_vz7pk7.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/5_2_n33no6.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682429/5_ogqoiq.jpg"
+    ],
     "rating": { "rate": 4.5, "count": 195 }
   },
   {
-    "id": 16,
-    "title": "Casual Skinny Jeans",
-    "price": 42,
-    "description": "Women's casual skinny jeans, stretch fabric for all-day comfort.",
-    "category": "women",
-    "brand": "Other",
-    "image": "https://i.imgur.com/XuHnW5S.jpg",
-    "rating": { "rate": 4.1, "count": 120 }
-  },
-  {
-    "id": 17,
-    "title": "Adidas Women's Sweatpants",
-    "price": 55,
-    "description": "Soft cotton Adidas sweatpants for women with tapered leg fit.",
-    "category": "women",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/3PfxWkO.jpg",
-    "rating": { "rate": 4.3, "count": 144 }
-  },
-  {
-    "id": 18,
-    "title": "Nike Women's Sports Shorts",
-    "price": 32,
-    "description": "Lightweight women's Nike shorts with breathable material.",
-    "category": "women",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/0Jg8hZt.jpg",
-    "rating": { "rate": 4.2, "count": 88 }
-  },
-  {
-    "id": 19,
-    "title": "Casual Handbag",
-    "price": 58,
-    "description": "Stylish leather-look handbag with adjustable strap for women.",
-    "category": "women",
-    "brand": "Other",
-    "image": "https://i.imgur.com/Dc5f7Vu.jpg",
-    "rating": { "rate": 4.0, "count": 102 }
-  },
-  {
-    "id": 20,
-    "title": "Adidas Women's Cap",
-    "price": 20,
-    "description": "Adjustable Adidas baseball cap with embroidered logo for women.",
-    "category": "women",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/Z1snXyB.jpg",
-    "rating": { "rate": 4.5, "count": 77 }
-  },
-  {
-    "id": 21,
-    "title": "Nike Men's Basketball Shoes",
-    "price": 130,
-    "description": "High-performance Nike basketball shoes with ankle support.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/ylL1v95.jpg",
-    "rating": { "rate": 4.7, "count": 230 }
-  },
-  {
-    "id": 22,
+    "id": 6,
     "title": "Adidas Men's Hoodie",
     "price": 65,
     "description": "Classic Adidas hoodie with kangaroo pocket and soft fleece.",
     "category": "men",
     "brand": "Adidas",
-    "image": "https://i.imgur.com/nt7Uo0b.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/6_1_egb8c4.webp",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/6_1_egb8c4.webp",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/6_2_fwht9a.webp",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/6_1_egb8c4.webp",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682430/6_2_fwht9a.webp"
+    ],
     "rating": { "rate": 4.4, "count": 180 }
   },
   {
-    "id": 23,
-    "title": "Casual Chinos Pants",
-    "price": 40,
-    "description": "Men's slim fit chinos pants, perfect for casual or office wear.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/q4YHw6j.jpg",
-    "rating": { "rate": 4.2, "count": 105 }
-  },
-  {
-    "id": 24,
+    "id": 7,
     "title": "Nike Men's Training Jacket",
     "price": 75,
     "description": "Lightweight Nike jacket for training in cooler weather.",
     "category": "men",
     "brand": "Nike",
-    "image": "https://i.imgur.com/cF6qZkM.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/7_hsmsc4.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/7_hsmsc4.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/7_hsmsc4.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682432/7_3_zokvtk.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682432/7_4_yow0c2.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/7_hsmsc4.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682433/7_hsmsc4.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682432/7_3_zokvtk.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682432/7_4_yow0c2.jpg"
+    ],
     "rating": { "rate": 4.5, "count": 156 }
   },
   {
-    "id": 25,
-    "title": "Adidas Men's Running Shorts",
-    "price": 30,
-    "description": "Breathable Adidas men's shorts with elastic waistband.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/t5SUkPQ.jpg",
-    "rating": { "rate": 4.3, "count": 134 }
-  },
-  {
-    "id": 26,
-    "title": "Casual Denim Jacket",
-    "price": 55,
-    "description": "Classic blue denim jacket for men, versatile casual wear.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/GxN7d3V.jpg",
-    "rating": { "rate": 4.1, "count": 97 }
-  },
-  {
-    "id": 27,
-    "title": "Nike Men's Training Cap",
-    "price": 22,
-    "description": "Lightweight breathable cap with embroidered Nike logo.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/ET8lGte.jpg",
-    "rating": { "rate": 4.4, "count": 76 }
-  },
-  {
-    "id": 28,
-    "title": "Adidas Men's Sneakers",
-    "price": 100,
-    "description": "Lifestyle Adidas sneakers with cushioned sole.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/3dYnTa6.jpg",
-    "rating": { "rate": 4.6, "count": 192 }
-  },
-  {
-    "id": 29,
-    "title": "Casual Leather Wallet",
-    "price": 25,
-    "description": "Men's slim leather wallet with multiple card slots.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/8u7qkOn.jpg",
-    "rating": { "rate": 4.0, "count": 65 }
-  },
-  {
-    "id": 30,
-    "title": "Nike Men's Joggers",
-    "price": 58,
-    "description": "Soft Nike joggers with elastic ankle cuffs and adjustable waist.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/C9toJYu.jpg",
-    "rating": { "rate": 4.5, "count": 142 }
-  },
-  {
-    "id": 31,
+    "id": 8,
     "title": "Adidas Women's Hoodie",
     "price": 62,
     "description": "Cozy Adidas hoodie for women with adjustable drawstring.",
     "category": "women",
     "brand": "Adidas",
-    "image": "https://i.imgur.com/TT7PUHE.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_mjwrxx.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_mjwrxx.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_mjwrxx.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_3_kpnkm3.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_mjwrxx.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_mjwrxx.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682435/8_3_kpnkm3.jpg"
+    ],
     "rating": { "rate": 4.5, "count": 166 }
   },
   {
-    "id": 32,
-    "title": "Nike Women's Sneakers",
-    "price": 110,
-    "description": "Trendy Nike women's sneakers with soft foam cushioning.",
-    "category": "women",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/OBpjf6n.jpg",
-    "rating": { "rate": 4.7, "count": 220 }
-  },
-  {
-    "id": 33,
+    "id": 9,
     "title": "Casual Women's Blouse",
     "price": 35,
     "description": "Lightweight casual blouse with button-down design.",
     "category": "women",
     "brand": "Other",
-    "image": "https://i.imgur.com/8wTjJRY.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_dk6asj.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_1_bnbymv.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_dk6asj.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_dk6asj.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_1_bnbymv.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_dk6asj.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682436/9_dk6asj.jpg"
+    ],
     "rating": { "rate": 4.2, "count": 104 }
   },
   {
-    "id": 34,
-    "title": "Adidas Women's Training Leggings",
-    "price": 50,
-    "description": "Adidas high-waisted leggings for training and yoga.",
-    "category": "women",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/7Mo4uUh.jpg",
-    "rating": { "rate": 4.4, "count": 145 }
-  },
-  {
-    "id": 35,
+    "id": 10,
     "title": "Nike Women's Tank Top",
     "price": 28,
     "description": "Breathable Nike tank top ideal for running and gym workouts.",
     "category": "women",
     "brand": "Nike",
-    "image": "https://i.imgur.com/qNnHbgD.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/10_sky17n.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682442/10_1_skchdo.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682442/10_2_bdmmkc.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/10_sky17n.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682442/10_1_skchdo.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682442/10_2_bdmmkc.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/10_sky17n.jpg"
+    ],
     "rating": { "rate": 4.3, "count": 112 }
   },
   {
-    "id": 36,
-    "title": "Casual Midi Skirt",
-    "price": 40,
-    "description": "Elegant women's midi skirt with flowy design for casual wear.",
-    "category": "women",
-    "brand": "Other",
-    "image": "https://i.imgur.com/64QQgrW.jpg",
-    "rating": { "rate": 4.1, "count": 88 }
-  },
-  {
-    "id": 37,
+    "id": 11,
     "title": "Adidas Women's Running Jacket",
     "price": 70,
     "description": "Lightweight Adidas jacket designed for running in cool weather.",
     "category": "women",
     "brand": "Adidas",
-    "image": "https://i.imgur.com/ybrCC9N.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682444/11_1_a4ajad.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682444/11_1_a4ajad.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/11_2_p5hpmj.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/11_3_o48jnw.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682444/11_1_a4ajad.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/11_2_p5hpmj.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682441/11_3_o48jnw.jpg"
+    ],
     "rating": { "rate": 4.5, "count": 156 }
   },
   {
-    "id": 38,
-    "title": "Nike Women's Sports Bra",
-    "price": 34,
-    "description": "Nike sports bra with medium support and racerback design.",
-    "category": "women",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/PI3JtJq.jpg",
-    "rating": { "rate": 4.4, "count": 120 }
-  },
-  {
-    "id": 39,
-    "title": "Casual Women's Handbag",
-    "price": 65,
-    "description": "Stylish women's handbag with leather-look finish.",
-    "category": "women",
-    "brand": "Other",
-    "image": "https://i.imgur.com/y0VYFsm.jpg",
-    "rating": { "rate": 4.0, "count": 90 }
-  },
-  {
-    "id": 40,
-    "title": "Adidas Women's Cap",
-    "price": 22,
-    "description": "Adjustable Adidas cap with curved visor and logo embroidery.",
-    "category": "women",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/cwjxn5z.jpg",
-    "rating": { "rate": 4.5, "count": 74 }
-  },
-  {
-    "id": 41,
-    "title": "Nike Men's Running Shoes",
-    "price": 125,
-    "description": "Lightweight Nike men's running shoes with breathable mesh.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/XeZgEpH.jpg",
-    "rating": { "rate": 4.7, "count": 245 }
-  },
-  {
-    "id": 42,
-    "title": "Adidas Men's Sweatshirt",
-    "price": 60,
-    "description": "Classic Adidas sweatshirt with ribbed cuffs and crewneck.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/o2MYQan.jpg",
-    "rating": { "rate": 4.4, "count": 180 }
-  },
-  {
-    "id": 43,
-    "title": "Casual Men's Polo Shirt",
-    "price": 38,
-    "description": "Men's short sleeve polo shirt, breathable cotton fabric.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/nVtuU1n.jpg",
-    "rating": { "rate": 4.2, "count": 102 }
-  },
-  {
-    "id": 44,
-    "title": "Nike Men's Training Shorts",
-    "price": 34,
-    "description": "Nike shorts for men with breathable Dri-FIT technology.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/KObTh6s.jpg",
-    "rating": { "rate": 4.3, "count": 140 }
-  },
-  {
-    "id": 45,
-    "title": "Adidas Men's Track Pants",
-    "price": 58,
-    "description": "Slim fit Adidas track pants with ankle zippers.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/GTVVZ9F.jpg",
-    "rating": { "rate": 4.5, "count": 164 }
-  },
-  {
-    "id": 46,
-    "title": "Casual Men's Jacket",
-    "price": 72,
-    "description": "Men's casual bomber jacket with zip closure.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/YqOanR5.jpg",
-    "rating": { "rate": 4.1, "count": 110 }
-  },
-  {
-    "id": 47,
-    "title": "Nike Men's Cap",
-    "price": 24,
-    "description": "Adjustable Nike men's cap with embroidered swoosh logo.",
-    "category": "men",
-    "brand": "Nike",
-    "image": "https://i.imgur.com/f6F5MTI.jpg",
-    "rating": { "rate": 4.4, "count": 98 }
-  },
-  {
-    "id": 48,
-    "title": "Adidas Men's Sneakers",
-    "price": 105,
-    "description": "Comfortable Adidas sneakers for everyday wear.",
-    "category": "men",
-    "brand": "Adidas",
-    "image": "https://i.imgur.com/UVySuXk.jpg",
-    "rating": { "rate": 4.6, "count": 190 }
-  },
-  {
-    "id": 49,
-    "title": "Casual Men's Belt",
-    "price": 28,
-    "description": "Durable leather men's belt with metal buckle.",
-    "category": "men",
-    "brand": "Other",
-    "image": "https://i.imgur.com/mQjF2pa.jpg",
-    "rating": { "rate": 4.0, "count": 72 }
-  },
-  {
-    "id": 50,
+    "id": 12,
     "title": "Nike Men's Hoodie",
     "price": 68,
     "description": "Soft fleece Nike men's hoodie with front pocket.",
     "category": "men",
     "brand": "Nike",
-    "image": "https://i.imgur.com/X0IgxOH.jpg",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_2_cxjqjy.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_2_cxjqjy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_2_cxjqjy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_3_alzv7x.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682447/12_4_hle6lw.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_2_cxjqjy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_2_cxjqjy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682443/12_3_alzv7x.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682447/12_4_hle6lw.jpg"
+    ],
     "rating": { "rate": 4.5, "count": 155 }
+  },
+  {
+    "id": 13,
+    "title": "Adidas Men's Sweatshirt",
+    "price": 60,
+    "description": "Classic Adidas sweatshirt with ribbed cuffs and crewneck.",
+    "category": "men",
+    "brand": "Adidas",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_2_b85bse.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_2_b85bse.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_2_b85bse.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_3_pohbgy.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_2_b85bse.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_2_b85bse.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/13_3_pohbgy.jpg"
+    ],
+    "rating": { "rate": 4.4, "count": 180 }
+  },
+  {
+    "id": 14,
+    "title": "Casual Men's Polo Shirt",
+    "price": 38,
+    "description": "Men's short sleeve polo shirt, breathable cotton fabric.",
+    "category": "men",
+    "brand": "Other",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_qqdqdv.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_qqdqdv.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_qqdqdv.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_3_nx2gej.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_qqdqdv.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_qqdqdv.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682445/14_3_nx2gej.jpg"
+    ],
+    "rating": { "rate": 4.2, "count": 102 }
+  },
+  {
+    "id": 15,
+    "title": "Women's Casual Cardigan",
+    "price": 55,
+    "description": "Soft knitted women's cardigan, open front design for layering.",
+    "category": "women",
+    "brand": "Other",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682448/15_utn7v3.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682446/15_1_kuvi2y.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682448/15_utn7v3.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682448/15_utn7v3.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682455/15_4_ys8nil.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682446/15_1_kuvi2y.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682448/15_utn7v3.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682448/15_utn7v3.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682455/15_4_ys8nil.jpg"
+    ],
+    "rating": { "rate": 4.4, "count": 90 }
+  },
+  {
+    "id": 16,
+    "title": "Nike Men's Long Sleeve Tee",
+    "price": 40,
+    "description": "Lightweight Nike men's long sleeve t-shirt for training or casual wear.",
+    "category": "men",
+    "brand": "Nike",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/16_e2ji2z.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/16_1_otlywm.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/16_e2ji2z.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/16_e2ji2z.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/16_1_otlywm.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/16_e2ji2z.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/16_e2ji2z.jpg"
+    ],
+    "rating": { "rate": 4.5, "count": 123 }
+  },
+  {
+    "id": 17,
+    "title": "Adidas Women's Crop Top",
+    "price": 32,
+    "description": "Adidas women's short sleeve crop top with breathable cotton fabric.",
+    "category": "women",
+    "brand": "Adidas",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682456/17_1_f55ha5.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682458/17_fs6mnb.jpg"
+    ],
+    "rating": { "rate": 4.3, "count": 135 }
+  },
+  {
+    "id": 18,
+    "title": "Casual Men's Denim Jacket",
+    "price": 72,
+    "description": "Classic men's denim jacket with button closure and chest pockets.",
+    "category": "men",
+    "brand": "Other",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682471/18_hchnrs.jpg"
+    ],
+    "rating": { "rate": 4.6, "count": 147 }
+  },
+  {
+    "id": 19,
+    "title": "Nike Women's Training Top",
+    "price": 36,
+    "description": "Nike women's lightweight training top with sweat-wicking fabric.",
+    "category": "women",
+    "brand": "Nike",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_oejo7t.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_1_dalkfe.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682460/19_2_tr8snq.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_oejo7t.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_1_dalkfe.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682460/19_2_tr8snq.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_oejo7t.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_1_dalkfe.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682460/19_2_tr8snq.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682457/19_oejo7t.jpg"
+    ],
+    "rating": { "rate": 4.4, "count": 122 }
+  },
+  {
+    "id": 20,
+    "title": "Adidas Men's Windbreaker",
+    "price": 80,
+    "description": "Adidas men's windbreaker jacket, water-resistant with adjustable hood.",
+    "category": "men",
+    "brand": "Adidas",
+    "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_1_pixjea.jpg",
+    "images": [
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_1_pixjea.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_2_a8enno.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682470/20_3_jps0kz.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_1_pixjea.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_2_a8enno.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682470/20_3_jps0kz.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_1_pixjea.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682469/20_2_a8enno.jpg",
+      "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682470/20_3_jps0kz.jpg"
+    ],
+    "rating": { "rate": 4.5, "count": 133 }
   }
-
 ]

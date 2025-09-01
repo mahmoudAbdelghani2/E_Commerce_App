@@ -29,8 +29,8 @@ class _OpenScreenState extends State<OpenScreen> {
             alignment: Alignment.topCenter,
             child: Padding(
               padding: const EdgeInsets.only(top: 32.0, right: 40),
-              child: Image.asset(
-                'assets/images/backgroundOpen.png',
+              child: Image.network(
+                'https://res.cloudinary.com/dxpjipiyh/image/upload/v1756683950/backgroundOpen_twvahk.png',
                 height: MediaQuery.of(context).size.height * 0.75,
                 width: double.infinity,
                 fit: BoxFit.cover,

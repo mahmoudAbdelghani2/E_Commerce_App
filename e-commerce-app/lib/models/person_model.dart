@@ -1,49 +1,51 @@
-class Person {
-  static final Person _instance = Person._internal();
+import 'dart:convert';
 
-  String uid = '';
-  String name = '';
-  String username = '';
-  int? age;
-  String email = '';
-  String? phoneNumber;
-  String? imageUrl;
+class PersonModel {
+  final String id;
+  final String name;
+  final String email;
+  final String? username;
+  final int? age;
+  final String? phoneNumber;
+  final String? imageUrl;
 
-  factory Person() {
-    return _instance;
-  }
+  PersonModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    this.username,
+    this.age,
+    this.phoneNumber,
+    this.imageUrl,
+  });
 
-  Person._internal();
-
-  Person.fromJson(Map<String, dynamic> json)
-      : uid = json['uid'],
-        name = json['name'],
-        username = json['username'],
-        age = json['age'],
-        email = json['email'],
-        phoneNumber = json['phoneNumber'],
-        imageUrl = json['imageUrl'];
-
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
+      'id': id,
       'name': name,
+      'email': email,
       'username': username,
       'age': age,
-      'email': email,
       'phoneNumber': phoneNumber,
       'imageUrl': imageUrl,
     };
   }
 
-  // يمكنك إضافة دالة لتحديث البيانات من JSON
-  void updateFromJson(Map<String, dynamic> json) {
-    uid = json['uid'] ?? uid;
-    name = json['name'] ?? name;
-    username = json['username'] ?? username;
-    age = json['age'] ?? age;
-    email = json['email'] ?? email;
-    phoneNumber = json['phoneNumber'] ?? phoneNumber;
-    imageUrl = json['imageUrl'] ?? imageUrl;
+  factory PersonModel.fromMap(Map<String, dynamic> map) {
+    return PersonModel(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
+      username: map['username'],
+      age: map['age'],
+      phoneNumber: map['phoneNumber'],
+      imageUrl: map['imageUrl'],
+    );
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory PersonModel.fromJson(String source) =>
+      PersonModel.fromMap(json.decode(source));
 }
+

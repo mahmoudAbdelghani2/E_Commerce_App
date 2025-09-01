@@ -7,10 +7,8 @@ import '../models/product_model.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// رفع المنتجات من ملف JSON للفايرستور
   Future<void> uploadProductsFromJson() async {
     try {
-      // اقرأ ملف JSON من الـ assets
       final String response =
           await rootBundle.loadString('assets/json/ecommerce_products.json');
       final List<dynamic> data = json.decode(response);
@@ -19,7 +17,7 @@ class FirestoreService {
         final product = ProductModel.fromJson(item);
         await _firestore
             .collection('products')
-            .doc(product.id.toString()) // خلي id بتاع JSON هو الـ docId
+            .doc(product.id.toString())
             .set({
           'id': product.id,
           'title': product.title,
@@ -40,7 +38,6 @@ class FirestoreService {
     }
   }
 
-  /// جلب كل المنتجات
   Future<List<ProductModel>> getProducts() async {
     try {
       debugPrint("Fetching products from Firestore...");
@@ -55,7 +52,6 @@ class FirestoreService {
     }
   }
 
-  /// جلب منتج واحد بالـ id
   Future<ProductModel?> getProductById(String id) async {
     try {
       final snapshot = await _firestore.collection('products').doc(id).get();

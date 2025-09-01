@@ -1,56 +1,58 @@
-import 'package:e_commerce_app/controllers/auth/auth_repo.dart';
 import 'package:e_commerce_app/controllers/auth/auth_states.dart';
+import 'package:e_commerce_app/services/auth_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final AuthRepository _repository;
-  AuthCubit(this._repository) : super(AuthInitial());
+  final AuthService _authService;
+  AuthCubit(this._authService) : super(AuthInitial()) {
+    _authService.user.listen((user) {
+      if (user != null) {
+        _loadUserData(user.uid);
+      } else {
+        emit(Unauthenticated());
+      }
+    });
+  }
 
-  Future<void> signUp({
-    required String name,
-    required String username,
-    required String email,
-    required String password,
-    int? age,
-    String? phoneNumber,
-  }) async {
-    emit(AuthLoading());
+  Future<void> _loadUserData(String uid) async {
     try {
-      final uid = await _repository.signUp(
-        name: name,
-        username: username,
-        email: email,
-        password: password,
-        age: age,
-        phoneNumber: phoneNumber,
-      );
-      emit(AuthAuthenticated(uid));
+      final person = await _authService.getUserData(uid);
+      if (person != null) {
+        emit(Authenticated(person));
+      } else {
+        // This case might happen if the user is in auth but not in firestore.
+        // You might want to handle this more gracefully.
+        emit(Unauthenticated());
+      }
     } catch (e) {
       emit(AuthError(e.toString()));
     }
   }
 
-  Future<void> signIn({
-    required String username,
-    required String password,
-  }) async {
+  Future<void> signUp(String name, String email, String password) async {
     emit(AuthLoading());
     try {
-      final uid = await _repository.signIn(
-        username: username,
-        password: password,
-      );
-      emit(AuthAuthenticated(uid));
+      await _authService.signUp(name: name, email: email, password: password);
+      // The stream listener will handle emitting the Authenticated state
     } catch (e) {
       emit(AuthError(e.toString()));
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> logIn(String email, String password) async {
     emit(AuthLoading());
     try {
-      await _repository.signOut();
-      emit(AuthLoggedOut());
+      await _authService.logIn(email: email, password: password);
+      // The stream listener will handle emitting the Authenticated state
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
+  }
+
+  Future<void> logOut() async {
+    try {
+      await _authService.logOut();
+      emit(Unauthenticated());
     } catch (e) {
       emit(AuthError(e.toString()));
     }
