@@ -1,13 +1,17 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:e_commerce_app/views/screens/login_screen.dart';
 import 'package:e_commerce_app/views/screens/open_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final String? selectedGender;
+  
+  const SignUpScreen({super.key, this.selectedGender});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -242,15 +246,85 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       elevation: 0,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       setState(() {
                         showValidationErrors = true;
                       });
                       if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
+                        try {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircularProgressIndicator(color: AppColors.buttonInSubmit),
+                                  SizedBox(height: 16),
+                                  Text("Creating account... Please wait"),
+                                ],
+                              ),
+                            ),
+                          );
+                          
+                          final authCubit = context.read<AuthCubit>();
+                          
+                          if (widget.selectedGender != null) {
+                            await authCubit.signUpWithGender(
+                              _nameController.text, 
+                              _emailController.text, 
+                              _passwordController.text,
+                              gender: widget.selectedGender
+                            );
+                          } else {
+                            await authCubit.signUp(
+                              _nameController.text, 
+                              _emailController.text, 
+                              _passwordController.text
+                            );
+                          }
+                          
+                          await Future.delayed(Duration(milliseconds: 500));
+                          
+                          if (Navigator.canPop(context)) {
+                            Navigator.of(context).pop();
+                          }
+                          
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Account created successfully! Redirecting to home...'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                          
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomeScreen()),
+                          );
+                        } catch (error) {
+                          if (Navigator.canPop(context)) {
+                            Navigator.of(context).pop();
+                          }
+                          
+                          String errorMessage = error.toString();
+                          if (errorMessage.contains("email-already-in-use")) {
+                            errorMessage = "Email is already in use";
+                          } else if (errorMessage.contains("weak-password")) {
+                            errorMessage = "Password is too weak";
+                          } else if (errorMessage.contains("invalid-email")) {
+                            errorMessage = "Invalid email format";
+                          } else if (errorMessage.contains("permission-denied")) {
+                            errorMessage = "Permission denied. Check Firebase rules";
+                          }
+                          
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to create account: $errorMessage'),
+                              backgroundColor: Colors.red,
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
+                        }
                       }
                     },
                     child: const Text(
@@ -264,7 +338,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 const SizedBox(height: 18),
-                // زر Already have an account
                 Center(
                   child: TextButton(
                     onPressed: () {

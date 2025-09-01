@@ -9,6 +9,7 @@ import 'package:e_commerce_app/firebase_options.dart';
 import 'package:e_commerce_app/services/auth_service.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:e_commerce_app/views/screens/open_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +18,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
+  // Set Firestore settings to enable offline persistence
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
 
   // This will upload all products and images every time the app starts.
@@ -31,9 +38,16 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final AuthService _authService = AuthService();
+  
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -44,21 +58,43 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => CartCubit()),
         BlocProvider(create: (_) => AdressCubit()),
         BlocProvider(create: (_) => ReviewCubit()),
-        BlocProvider(create: (_) => AuthCubit(AuthService())),
+        BlocProvider(create: (context) {
+          final authCubit = AuthCubit(_authService);
+          // التحقق من بيانات الدخول المحفوظة عند بدء التطبيق
+          Future.microtask(() => authCubit.checkSavedCredentials());
+          return authCubit;
+        }),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'E-Commerce App',
+        theme: ThemeData(
+          primaryColor: const Color(0xFF9775FA),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            secondary: const Color(0xFF9775FA),
+          ),
+        ),
         home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return HomeScreen();
-          } else {
-            return OpenScreen();
-          }
-        },
-      ),
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // إظهار شاشة التحميل أثناء التحقق من حالة المصادقة
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else if (snapshot.hasData) {
+              // إذا كان المستخدم مسجل الدخول
+              print("User is authenticated: ${snapshot.data?.uid}");
+              return HomeScreen();
+            } else {
+              // إذا لم يكن المستخدم مسجل الدخول
+              print("User is not authenticated");
+              return OpenScreen();
+            }
+          },
+        ),
       ),
     );
   }

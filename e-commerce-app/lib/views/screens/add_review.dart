@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/controllers/review/review_cubit.dart';
 import 'package:e_commerce_app/models/review_model.dart';
+import 'package:e_commerce_app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -160,7 +161,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               
               const SizedBox(height: 32),
               
-              // Star rating
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -182,7 +182,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                           min: 0,
                           max: 5,
                           divisions: 10,
-                          activeColor: Color(0xFFF76A3C),
                           onChanged: (value) {
                             setState(() {
                               _rating = value;
@@ -198,16 +197,13 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                   ),
                 ],
               ),
-              
               const SizedBox(height: 24),
-              
-              // Submit button
               SizedBox(
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFF76A3C),
+                    backgroundColor: AppColors.buttonInSubmit,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -237,14 +233,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
       mainAxisSize: MainAxisSize.min,
       children: List.generate(5, (index) {
         if (index < rating.floor()) {
-          // Full star
-          return Icon(Icons.star, color: Color(0xFFF76A3C), size: 30);
+          return Icon(Icons.star, color: AppColors.buttonInSubmit, size: 30);
         } else if (index < rating.ceil() && rating.floor() != rating.ceil()) {
-          // Half star
-          return Icon(Icons.star_half, color: Color(0xFFF76A3C), size: 30);
+          return Icon(Icons.star_half, color: AppColors.buttonInSubmit, size: 30);
         } else {
-          // Empty star
-          return Icon(Icons.star_border, color: Color(0xFFF76A3C), size: 30);
+          return Icon(Icons.star_border, color: AppColors.buttonInSubmit, size: 30);
         }
       }),
     );

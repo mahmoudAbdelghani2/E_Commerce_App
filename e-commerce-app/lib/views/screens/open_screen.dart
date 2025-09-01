@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:e_commerce_app/utils/app_colors.dart';
-import 'package:e_commerce_app/views/screens/home_screen.dart';
+import 'package:e_commerce_app/views/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class OpenScreen extends StatefulWidget {
@@ -151,23 +151,53 @@ class _OpenScreenState extends State<OpenScreen> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              //ToDo => replace with SignUpScreen()
-                              builder: (context) => HomeScreen(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Skip",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: AppColors.secondaryText,
+                              ),
                             ),
-                          );
-                        },
-                        child: const Text(
-                          "Skip",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.secondaryText,
                           ),
-                        ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.buttonInSubmit,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            ),
+                            onPressed: () {
+                              final selectedGender = isSelected1 ? 'Male' : 'Female';
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpScreen(selectedGender: selectedGender),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Continue",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

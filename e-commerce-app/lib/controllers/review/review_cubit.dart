@@ -45,8 +45,14 @@ class ReviewCubit extends Cubit<ReviewState> {
         reviews = reviewsData.map((item) => ReviewModel.fromJson(item)).toList();
       }
       
-      // Add the new review
-      reviews.add(review);
+      // Add the new review with current timestamp
+      final reviewWithTimestamp = ReviewModel(
+        name: review.name,
+        experience: review.experience,
+        rating: review.rating,
+        timestamp: DateTime.now(),
+      );
+      reviews.add(reviewWithTimestamp);
       
       // Save back to storage
       final updatedJson = jsonEncode(reviews.map((r) => r.toJson()).toList());

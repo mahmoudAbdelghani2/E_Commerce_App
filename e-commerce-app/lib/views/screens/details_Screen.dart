@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
@@ -23,7 +23,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // Load reviews for this product
     context.read<ReviewCubit>().loadReviews(widget.product.id.toString());
   }
 
@@ -258,7 +257,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ],
                         ),
                         
-                        // Show the latest review or a message if no reviews
                         if (reviews.isEmpty)
                           Container(
                             padding: const EdgeInsets.all(16),

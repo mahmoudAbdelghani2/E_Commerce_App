@@ -1,6 +1,11 @@
+import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
+import 'package:e_commerce_app/controllers/auth/auth_states.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
+import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:e_commerce_app/views/screens/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -75,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
-                    label: Text('Username'),
+                    label: Text('Email'),
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFFE7E6E9)),
                     ),
@@ -89,16 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your username';
+                      return 'Please enter your email';
                     }
-                    if (value.trim().length < 6) {
-                      return 'Username must be at least 6 characters';
-                    }
-                    if (!RegExp(r'[a-z]').hasMatch(value)) {
-                      return 'Username must contain at least one lowercase letter';
-                    }
-                    if (!RegExp(r'\\d').hasMatch(value)) {
-                      return 'Username must contain at least one number';
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value.trim())) {
+                      return 'Please enter a valid email address';
                     }
                     return null;
                   },
@@ -137,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (!RegExp(r'[A-Z]').hasMatch(value)) {
                       return 'Password must contain at least one uppercase letter';
                     }
-                    if (!RegExp(r'\\d').hasMatch(value)) {
+                    if (!RegExp(r'\d').hasMatch(value)) {
                       return 'Password must contain at least one number';
                     }
                     return null;
@@ -217,9 +218,130 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       elevation: 0,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // تنفيذ عملية تسجيل الدخول
+                        final authCubit = context.read<AuthCubit>();
+                        
+                        // Clear any existing snackbars
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        
+                        // Show loading indicator
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Row(
+                              children: [
+                                CircularProgressIndicator(color: Colors.white),
+                                SizedBox(width: 16),
+                                Text('Logging in... Please wait'),
+                              ],
+                            ),
+                            backgroundColor: Colors.blue,
+                            duration: Duration(seconds: 10),
+                          ),
+                        );
+                        
+                        try {
+                          print("Login Screen: Starting login process with email: ${_usernameController.text}");
+                          
+                          // Start the login process
+                          await authCubit.logIn(
+                            _usernameController.text, 
+                            _passwordController.text,
+                            rememberMe: isSwitched
+                          );
+                          
+                          // Wait a moment to ensure the state has been updated
+                          await Future.delayed(Duration(milliseconds: 500));
+                          
+                          // Get current state after login attempt
+                          final currentState = authCubit.state;
+                          print("Login Screen: Current auth state after login: $currentState");
+                          
+                          // Hide loading indicator
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          
+                          if (currentState is Authenticated) {
+                            // Login succeeded
+                            print("Login Screen: Authentication successful for ${currentState.user.name}");
+                            
+                            // Show success message
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Login successful! Welcome back, ${currentState.user.name}'),
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            
+                            // Navigate to home screen
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                            );
+                          } else if (currentState is AuthError) {
+                            // Login failed with error
+                            print("Login Screen: Authentication error: ${currentState.message}");
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Error: ${currentState.message}'),
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 5),
+                              ),
+                            );
+                          } else {
+                            // Unexpected state
+                            print("Login Screen: Unexpected state after login: $currentState");
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Login failed. Please try again.'),
+                                backgroundColor: Colors.orange,
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                            
+                            // Check current user status
+                            final currentUser = FirebaseAuth.instance.currentUser;
+                            print("Current Firebase user is: ${currentUser?.uid ?? 'null'}");
+                            
+                            if (currentUser != null) {
+                              print("User is authenticated in Firebase but state is not Authenticated");
+                              
+                              // Try to force reload user data
+                              try {
+                                await authCubit.reloadUserData();
+                                
+                                // Wait a moment and check state again
+                                await Future.delayed(Duration(milliseconds: 500));
+                                final newState = authCubit.state;
+                                
+                                if (newState is Authenticated) {
+                                  // Now we're authenticated, proceed to home screen
+                                  print("Login Screen: Authentication successful after reload");
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                                  );
+                                }
+                              } catch (e) {
+                                print("Error reloading user data: $e");
+                              }
+                            }
+                          }
+                        } catch (error) {
+                          // Hide loading indicator
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          
+                          print("Exception during login: $error");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Login error: ${error.toString()}'),
+                              backgroundColor: Colors.red,
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
+                        }
                       }
                     },
                     child: const Text(

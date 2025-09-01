@@ -6,9 +6,8 @@ import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_state.dart';
 import 'package:e_commerce_app/models/adress_model.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
-import 'package:e_commerce_app/views/screens/adress_screen.dart';
+import 'package:e_commerce_app/views/screens/add_address_screen.dart';
 import 'package:e_commerce_app/views/screens/confirmed_screen.dart';
-import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:e_commerce_app/views/widgets/list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +24,7 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     context.read<CartCubit>().loadCart();
-    context.read<AdressCubit>().loadAddress();
+    context.read<AdressCubit>().loadAddress(context: context);
   }
 
   @override
@@ -35,6 +34,7 @@ class _CartScreenState extends State<CartScreen> {
       backgroundColor: AppColors.primaryBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primaryBackground,
+        automaticallyImplyLeading: false,
         title: const Text(
           "Cart",
           style: TextStyle(
@@ -142,18 +142,21 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            // Navigate to address screen and expect a result back
-                            final result = await Navigator.push(
+                            // Navigate to address screen
+                            await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AdressScreen(),
+                                builder: (context) => AddAddressScreen(
+                                  onAddressAdded: (newAddress) {
+                                    context.read<AdressCubit>().saveAddress(newAddress);
+                                  },
+                                  isFirstAddress: true,
+                                ),
                               ),
                             );
                             
-                            // If address was saved, refresh address display
-                            if (result != null) {
-                              context.read<AdressCubit>().loadAddress();
-                            }
+                            // Refresh address display
+                            context.read<AdressCubit>().loadAddress(context: context);
                           },
                           icon: Icon(Icons.arrow_forward_ios),
                           color: AppColors.primaryText,
@@ -169,7 +172,7 @@ class _CartScreenState extends State<CartScreen> {
                             return Container(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               child: const Text(
-                                "No address saved. Please add a delivery address.",
+                                "No address added",
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 16,
@@ -365,7 +368,12 @@ class _CartScreenState extends State<CartScreen> {
                                       await Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const AdressScreen(),
+                                          builder: (context) => AddAddressScreen(
+                                            onAddressAdded: (newAddress) {
+                                              context.read<AdressCubit>().saveAddress(newAddress);
+                                            },
+                                            isFirstAddress: true,
+                                          ),
                                         ),
                                       );
                                     },

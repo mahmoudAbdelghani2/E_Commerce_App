@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
+import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
 import 'package:e_commerce_app/controllers/product/product_cubit.dart';
 import 'package:e_commerce_app/controllers/product/product_state.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
+import 'package:e_commerce_app/views/screens/open_screen.dart';
 import 'package:e_commerce_app/views/widgets/grid_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,175 +72,291 @@ class _ProductScreenState extends State<ProductScreen> {
           padding: EdgeInsets.zero,
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Back button in circle
-                  Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios, size: 18),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.green[100],
-                        child: const CircleAvatar(
-                          radius: 28,
-                          backgroundImage: NetworkImage(
-                            'https://i.pravatar.cc/150?img=11',
+              padding: const EdgeInsets.only(bottom: 16),
+              decoration: const BoxDecoration(
+                gradient: AppColors.mainGradient,
+              ),
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 16),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: IconButton(
+                            icon: const Icon(Icons.close, size: 20, color: Colors.white),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
                         ),
                       ),
-                      const SizedBox(width: 15),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
                         children: [
-                          const Text(
-                            'Mrh Raju',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: const CircleAvatar(
+                              radius: 30,
+                              backgroundImage: AssetImage('assets/images/cr7.jpg'),
                             ),
                           ),
-                          Row(
-                            children: const [
-                              Text(
-                                'Verified Profile',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              SizedBox(width: 5),
-                              Icon(
-                                Icons.check_circle,
-                                color: Colors.green,
-                                size: 14,
-                              ),
-                            ],
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Mrh Raju',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Row(
+                                  children: const [
+                                    Text(
+                                      'Verified Profile',
+                                      style: TextStyle(color: Colors.white70),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Icon(
+                                      Icons.check_circle,
+                                      color: Colors.white,
+                                      size: 14,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                      const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Text('3 Orders'),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.buttonInSubmit.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.brightness_2_outlined,
+                      color: AppColors.buttonInSubmit,
+                    ),
                   ),
-                ],
+                  title: const Text(
+                    'Dark Mode',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  trailing: Switch(
+                    value: false,
+                    onChanged: (_) {},
+                    activeColor: AppColors.buttonInSubmit,
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(Icons.brightness_2_outlined),
-              title: const Text(
-                'Dark Mode',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-              trailing: Switch(
-                value: false,
-                onChanged: (_) {},
-                activeColor: Colors.purple,
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.info_outline),
-              title: TextButton(
-                onPressed: () {
-                  BlocProvider.of<BottomNavCubit>(context).changeTab(3);
-                },
-                child: Text(
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                tileColor: Colors.grey.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonInSubmit.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.info_outline, color: AppColors.buttonInSubmit),
+                ),
+                title: const Text(
                   'Account Information',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                onTap: () {
+                  BlocProvider.of<BottomNavCubit>(context).changeTab(3);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                tileColor: Colors.grey.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonInSubmit.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  textAlign: TextAlign.start,
+                  child: const Icon(Icons.lock_outline, color: AppColors.buttonInSubmit),
                 ),
-              ),
-            ),
-            // Password
-            ListTile(
-              leading: Icon(Icons.lock_outline),
-              title: Text(
-                'Password',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
-            ),
-            // Order
-            ListTile(
-              leading: Icon(Icons.shopping_bag_outlined),
-              title: TextButton(
-                onPressed: () {
-                  BlocProvider.of<BottomNavCubit>(context).changeTab(2);
-                },
-                child: Text(
-                  'Order',
-                  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-            ),
-            // My Cards
-            ListTile(
-              leading: Icon(Icons.credit_card_outlined),
-              title: Text(
-                'My Cards',
-                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-                textAlign: TextAlign.start,
-              ),
-            ),
-            // Wishlist
-            ListTile(
-              leading: Icon(Icons.favorite_border_outlined),
-              title: TextButton(
-                onPressed: () {
-                  BlocProvider.of<BottomNavCubit>(context).changeTab(1);
-                },
-                child: Text(
-                  'WishList',
+                title: const Text(
+                  'Password',
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),
             ),
-            // Settings
-            ListTile(
-              leading: Icon(Icons.settings_outlined),
-              title: Text(
-                'Settings',
-                style: TextStyle(fontWeight: FontWeight.w500),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                tileColor: Colors.grey.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonInSubmit.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.shopping_bag_outlined, color: AppColors.buttonInSubmit),
+                ),
+                title: const Text(
+                  'Orders',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                onTap: () {
+                  BlocProvider.of<BottomNavCubit>(context).changeTab(2);
+                  Navigator.of(context).pop();
+                },
               ),
             ),
-            SizedBox(height: 100),
-            // Logout button
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.red[400]),
-              title: Text(
-                'Logout',
-                style: TextStyle(
-                  color: Colors.red[400],
-                  fontWeight: FontWeight.w500,
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                tileColor: Colors.grey.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonInSubmit.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.credit_card_outlined, color: AppColors.buttonInSubmit),
+                ),
+                title: const Text(
+                  'My Cards',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                tileColor: Colors.grey.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonInSubmit.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.favorite_border_outlined, color: AppColors.buttonInSubmit),
+                ),
+                title: const Text(
+                  'Wishlist',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+                onTap: () {
+                  BlocProvider.of<BottomNavCubit>(context).changeTab(1);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                tileColor: Colors.grey.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonInSubmit.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.settings_outlined, color: AppColors.buttonInSubmit),
+                ),
+                title: const Text(
+                  'Settings',
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                tileColor: Colors.red.shade50,
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(Icons.logout, color: Colors.red[400]),
+                ),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Colors.red[400],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                onTap: () {
+                  context.read<AuthCubit>().logOut();
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const OpenScreen()),
+                    (route) => false,
+                  );
+                },
               ),
             ),
           ],
@@ -279,7 +397,6 @@ class _ProductScreenState extends State<ProductScreen> {
                     .where((p) => p.brand == _selectedBrand)
                     .toList();
               }
-
               return RefreshIndicator(
                 onRefresh: () async {
                   context.read<ProductCubit>().fetchProducts();
@@ -366,7 +483,9 @@ class _ProductScreenState extends State<ProductScreen> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    childAspectRatio: 0.8,
+                                    childAspectRatio: 0.7,
+                                    crossAxisSpacing: 8.0,
+                                    mainAxisSpacing: 8.0,
                                   ),
                               itemCount: brandFiltered.length,
                               itemBuilder: (context, index) {

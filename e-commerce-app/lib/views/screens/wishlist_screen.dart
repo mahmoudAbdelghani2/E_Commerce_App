@@ -19,12 +19,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
     super.initState();
     context.read<WishlistCubit>().loadWishlist();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryBackground,
       appBar: AppBar(
         backgroundColor: AppColors.primaryBackground,
+        automaticallyImplyLeading: false,
         title: const Text(
           "Wishlist",
           style: TextStyle(
@@ -60,20 +62,46 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 ),
               );
             }
-            return  GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${wishlist.length} ${wishlist.length == 1 ? 'item' : 'items'}",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryText,
+                    ),
                   ),
-                  itemCount: wishlist.length,
-                  itemBuilder: (context, index) {
-                    final product = wishlist[index];
-                    return GridWidget(product: product);
-                  },
-                );
-            
+                  Text(
+                    "in wishlist",
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: AppColors.secondaryText,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8.0,
+                            mainAxisSpacing: 8.0,
+                            childAspectRatio: 0.7,
+                          ),
+                      itemCount: wishlist.length,
+                      itemBuilder: (context, index) {
+                        final product = wishlist[index];
+                        return GridWidget(product: product);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
           } else if (state is WishlistError) {
             return Center(
               child: Text(
