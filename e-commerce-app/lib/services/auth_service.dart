@@ -6,10 +6,8 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Stream لمراقبة حالة المستخدم
   Stream<User?> get user => _auth.authStateChanges();
 
-  // تسجيل مستخدم جديد
   Future<void> signUp({
     required String name,
     required String email,
@@ -26,7 +24,6 @@ class AuthService {
 
     await user.updateDisplayName(name);
 
-    // Ensure the displayName update is persisted locally before creating the Firestore doc
     await user.reload();
     final currentUser = FirebaseAuth.instance.currentUser ?? user;
     final resolvedName = currentUser.displayName ?? name;
@@ -42,7 +39,6 @@ class AuthService {
     await _firestore.collection('users').doc(user.uid).set(person.toMap());
   }
 
-  // تسجيل الدخول
   Future<void> logIn({
     required String email,
     required String password,
@@ -50,12 +46,10 @@ class AuthService {
     await _auth.signInWithEmailAndPassword(email: email, password: password);
   }
 
-  // تسجيل الخروج
   Future<void> logOut() async {
     await _auth.signOut();
   }
 
-  // جلب بيانات المستخدم من Firestore أو إنشاء مستخدم جديد إذا لم يكن موجود
   Future<PersonModel> getOrCreateUser(User user, {String? gender, String? preferredUsername}) async {
     final ref = _firestore.collection('users').doc(user.uid);
     final doc = await ref.get();

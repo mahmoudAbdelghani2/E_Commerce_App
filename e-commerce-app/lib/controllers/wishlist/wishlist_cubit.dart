@@ -22,7 +22,7 @@ class WishlistCubit extends Cubit<WishlistState> {
   Future<void> addToWishlist(ProductModel product) async {
     try {
       await _firestore.addToWishlist(userId, product);
-      await loadWishlist(); // عشان نرجّع الستيت الجديد
+      await loadWishlist();
     } catch (e) {
       emit(WishlistError(e.toString()));
     }

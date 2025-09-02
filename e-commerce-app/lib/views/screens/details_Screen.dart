@@ -547,7 +547,6 @@ Widget _buildLatestReviewCard(ReviewModel review, double averageRating) {
       children: [
         Row(
           children: [
-            // User avatar
             CircleAvatar(
               backgroundColor: Colors.purple[100],
               child: Text(

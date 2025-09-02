@@ -32,12 +32,10 @@ class ConfirmedScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Order Success Animation
                     SizedBox(
                       height: 300,
                       width: 300,
                       child: Lottie.asset(
-                        // Animation of a successful order with checkmark
                         'assets/lottie/delivery.json',
                         repeat: true,
                         animate: true,
@@ -47,7 +45,6 @@ class ConfirmedScreen extends StatelessWidget {
                     
                     const SizedBox(height: 30),
                     
-                    // Order confirmation text
                     const Text(
                       "Order Confirmed!",
                       style: TextStyle(
@@ -58,7 +55,6 @@ class ConfirmedScreen extends StatelessWidget {
                     
                     const SizedBox(height: 12),
                     
-                    // Confirmation message
                     const Text(
                       "Your order has been confirmed, we will send you confirmation email shortly.",
                       textAlign: TextAlign.center,
@@ -88,10 +84,8 @@ class ConfirmedScreen extends StatelessWidget {
                 ),
                 onPressed: () {
 
-                  // Navigate to home screen (index 0)
                   context.read<BottomNavCubit>().changeTab(0);
-                  // Pop until we reach the main navigation screen
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.of(context).pop();
                 },
                 child: const Text(
                   "Continue Shopping",

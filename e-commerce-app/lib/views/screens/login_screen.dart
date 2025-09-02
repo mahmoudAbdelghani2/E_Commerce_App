@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
 import 'package:e_commerce_app/controllers/auth/auth_states.dart';
@@ -237,7 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
 
                         try {
-                          // Start the login process
                           await authCubit.logIn(
                             _usernameController.text,
                             _passwordController.text,
@@ -280,8 +279,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           } else {
-                            // Unexpected state
-
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text(
@@ -309,7 +306,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 if (!mounted) return;
                                 if (newState is Authenticated) {
-                                  // Now we're authenticated, proceed to home screen
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
@@ -318,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   );
                                 }
                               } catch (e) {
-                                var _ = e; 
+                                debugPrint('Reload error: $e');
                               }
                             }
                           }

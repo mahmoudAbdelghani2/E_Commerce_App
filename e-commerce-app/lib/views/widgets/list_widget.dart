@@ -122,24 +122,3 @@ class _ListWidgetState extends State<ListWidget> {
     );
   }
 }
-
-/**
- * ListTile(
-        leading: 
-        title:
-        subtitle: 
-        trailing: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: BlocBuilder<CartCubit, CartState>(
-            builder: (context, state) {
-              return Row(
-                children: [
-                  Spacer(),
-                  
-                ],
-              );
-            },
-          ),
-        ),
-      ),
- */

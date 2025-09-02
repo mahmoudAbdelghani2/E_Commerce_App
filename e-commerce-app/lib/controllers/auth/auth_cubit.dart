@@ -7,7 +7,6 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthService _authService;
 
   AuthCubit(this._authService) : super(AuthInitial()) {
-    // Stream listener لمراقبة حالة المستخدم
     _authService.user.listen((user) async {
       if (user != null) {
         await _loadUser(user);
@@ -58,7 +57,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // تسجيل الدخول
   Future<void> logIn(String email, String password) async {
     emit(AuthLoading());
     try {
@@ -74,7 +72,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // تسجيل الخروج
   Future<void> logOut() async {
     try {
       await _authService.logOut();
@@ -84,7 +81,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  // إعادة تحميل بيانات المستخدم
   Future<void> reloadUserData() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {

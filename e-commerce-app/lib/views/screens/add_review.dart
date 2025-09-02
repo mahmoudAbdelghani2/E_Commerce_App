@@ -125,7 +125,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               
               const SizedBox(height: 24),
               
-              // Experience field
               const Text(
                 'How was your experience ?',
                 style: TextStyle(

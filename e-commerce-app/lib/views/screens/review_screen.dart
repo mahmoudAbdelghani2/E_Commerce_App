@@ -23,7 +23,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     context.read<ReviewCubit>().loadReviews(widget.productId);
   }
   
-  // Format the date to display in the review
   String _formatDate(DateTime? timestamp) {
     if (timestamp == null) {
       return "Date unavailable";
@@ -123,33 +122,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ),
               );
             }
-            /*
-            
-            ElevatedButton(
-              onPressed: () async {
-                final result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddReviewScreen(productId: widget.productId),
-                  ),
-                );
-                
-                if (result == true) {
-                  if (mounted) {
-                    context.read<ReviewCubit>().loadReviews(widget.productId);
-                  }
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFF76A3C),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('Add Review'),
-            ), */
 
             final reviewCubit = context.read<ReviewCubit>();
             final avgRating = reviewCubit.getAverageRating(reviews);

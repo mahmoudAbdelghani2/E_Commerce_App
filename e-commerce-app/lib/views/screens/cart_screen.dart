@@ -21,7 +21,6 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     context.read<CartCubit>().loadCart();
-  // Address feature removed — Cart shows a fixed delivery address
   }
 
   @override
@@ -139,7 +138,6 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ],
                     ),
-                    // Fixed delivery address (hardcoded)
                     const ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text(
