@@ -1,72 +1,110 @@
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import '../models/product_model.dart';
+import 'package:e_commerce_app/models/review_model.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:e_commerce_app/models/product_model.dart';
 
 class FirestoreService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _db = FirebaseFirestore.instance;
 
-  Future<void> uploadProductsFromJson() async {
+  Future<void> addProductsFromJson() async {
     try {
-      final String response = await rootBundle.loadString('assets/json/ecommerce_products.json');
-      final List<dynamic> data = json.decode(response);
+      final jsonStr = await rootBundle.loadString('assets/json/ecommerce_products.json');
+      final List data = json.decode(jsonStr);
 
-      for (var item in data) {
-        final product = ProductModel.fromJson(item as Map<String, dynamic>);
-        final docRef = _firestore.collection('products').doc(product.id.toString());
+      for (final item in data) {
+        final product = ProductModel.fromJson(item);
 
-        final map = {
-          'id': product.id,
-          'title': product.title,
-          'price': product.price,
-          'description': product.description,
-          'category': product.category,
-          'image': product.image,
-          'brand': product.brand,
-          'rating': product.rating != null
-              ? {'rate': product.rating!.rate, 'count': product.rating!.count}
-              : null,
-        }..removeWhere((k, v) => v == null);
-
-        await docRef.set(map);
+        final docRef = _db.collection('products').doc(product.id.toString());
+        await docRef.set(product.toJson());
 
         final images = (item['images'] as List?)?.map((e) => e.toString()).toList() ?? [];
         for (final img in images) {
           await docRef.collection('product_images').add({'image': img});
         }
       }
-
-      if (kDebugMode) debugPrint('Products uploaded successfully');
     } catch (e) {
-      if (kDebugMode) debugPrint('Error uploading products: $e');
+      rethrow;
     }
   }
 
-  Future<List<ProductModel>> getProducts() async {
-    final snapshot = await _firestore.collection('products').get();
-    return snapshot.docs.map((d) => ProductModel.fromJson(d.data())).toList();
+  Future<List<ProductModel>> fetchProducts() async {
+    final snapshot = await _db.collection('products').get();
+    final products = <ProductModel>[];
+
+    for (final doc in snapshot.docs) {
+      final product = ProductModel.fromJson(doc.data());
+
+      final imgsSnap = await doc.reference.collection('product_images').get();
+      final images = imgsSnap.docs
+          .map((d) => d.data()['image'] as String?)
+          .whereType<String>()
+          .toList();
+
+      if (images.isNotEmpty) {
+        product.images = images;
+        product.image ??= images.first;
+      }
+
+      products.add(product);
+    }
+
+    return products;
   }
 
-  Future<ProductModel?> getProductById(String id) async {
-    final snap = await _firestore.collection('products').doc(id).get();
-    if (!snap.exists) return null;
-    return ProductModel.fromJson(snap.data()!);
+  Future<void> addReview(String productId, ReviewModel review) async {
+  final collectionRef = _db.collection('products').doc(productId).collection('reviews');
+  await collectionRef.add(review.toJson()); 
+}
+
+Future<List<ReviewModel>> fetchReviews(String productId) async {
+  final snapshot = await _db
+      .collection('products')
+      .doc(productId)
+      .collection('reviews')
+      .orderBy('timestamp', descending: true)
+      .get();
+
+  return snapshot.docs.map((doc) => ReviewModel.fromJson(doc.data())).toList();
+}
+
+Future<void> addToWishlist(String userId, ProductModel product) async {
+    final docRef = _db
+        .collection('users')
+        .doc(userId)
+        .collection('wishlist')
+        .doc(product.id.toString());
+
+    await docRef.set(product.toJson());
   }
 
-  Future<Map<String, dynamic>?> getProductWithDetails(String id) async {
-    final docRef = _firestore.collection('products').doc(id);
-    final snap = await docRef.get();
-    if (!snap.exists || snap.data() == null) return null;
+  Future<void> removeFromWishlist(String userId, String productId) async {
+    final docRef = _db
+        .collection('users')
+        .doc(userId)
+        .collection('wishlist')
+        .doc(productId);
 
-    final product = {...snap.data()!, 'docId': snap.id};
+    await docRef.delete();
+  }
 
-    final imgsSnap = await docRef.collection('product_images').get();
-    final images = imgsSnap.docs.map((d) => d.data()).toList();
+  Future<List<ProductModel>> fetchWishlist(String userId) async {
+    final snapshot = await _db
+        .collection('users')
+        .doc(userId)
+        .collection('wishlist')
+        .get();
 
-    final reviewsSnap = await docRef.collection('reviews').orderBy('createdAt', descending: true).get();
-    final reviews = reviewsSnap.docs.map((d) => d.data()).toList();
+    return snapshot.docs
+        .map((doc) => ProductModel.fromJson(doc.data()))
+        .toList();
+  }
 
-    return {'product': product, 'images': images, 'reviews': reviews};
+  Future<void> clearWishlist(String userId) async {
+    final ref = _db.collection('users').doc(userId).collection('wishlist');
+    final snapshot = await ref.get();
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ReviewModel {
   final String name;
   final String experience;
@@ -11,26 +13,14 @@ class ReviewModel {
     this.timestamp,
   });
 
-  ReviewModel copyWith({
-    String? name,
-    String? experience,
-    double? rating,
-    DateTime? timestamp,
-  }) {
-    return ReviewModel(
-      name: name ?? this.name,
-      experience: experience ?? this.experience,
-      rating: rating ?? this.rating,
-      timestamp: timestamp ?? this.timestamp,
-    );
-  }
-
   Map<String, dynamic> toJson() {
     return {
       'name': name,
       'experience': experience,
       'rating': rating,
-      'timestamp': timestamp?.millisecondsSinceEpoch,
+      'timestamp': timestamp != null 
+          ? Timestamp.fromDate(timestamp!) 
+          : FieldValue.serverTimestamp(),
     };
   }
 
@@ -38,11 +28,10 @@ class ReviewModel {
     return ReviewModel(
       name: json['name'] ?? '',
       experience: json['experience'] ?? '',
-      rating: json['rating']?.toDouble() ?? 0.0,
-      timestamp: json['timestamp'] != null 
-          ? DateTime.fromMillisecondsSinceEpoch(json['timestamp']) 
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
+      timestamp: json['timestamp'] is Timestamp
+          ? (json['timestamp'] as Timestamp).toDate()
           : null,
     );
   }
-
 }

@@ -8,7 +8,6 @@ class ProductModel {
   String? image;
   List<String>? images;
   Rating? rating;
-
   bool isAddedToCart;
   bool isAddedToWishlist;
   int quantity;

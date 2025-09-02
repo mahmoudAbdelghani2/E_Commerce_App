@@ -3,18 +3,19 @@ import 'package:e_commerce_app/services/firestore_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-  ProductCubit() : super(ProductInitial()) {
-    // Load products from Firestore when the cubit is created
-    fetchProducts();
-  }
+  final FirestoreService _firestore;
 
-  Future<void> fetchProducts() async {
+  ProductCubit(this._firestore) : super(ProductInitial());
+
+  Future<void> fetchProducts({bool force = false}) async {
+    if (!force && state is ProductLoaded) return;
+
     emit(ProductLoading());
     try {
-      final products = await FirestoreService().getProducts();
+      final products = await _firestore.fetchProducts();
       emit(ProductLoaded(products));
     } catch (e) {
-      emit(ProductError("Error loading products: $e"));
+      emit(ProductError("Error: $e"));
     }
   }
 }

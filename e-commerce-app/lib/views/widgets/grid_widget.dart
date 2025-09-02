@@ -3,7 +3,7 @@
 import 'package:e_commerce_app/controllers/wishlist/wishlist_cubit.dart';
 import 'package:e_commerce_app/controllers/wishlist/wishlist_state.dart';
 import 'package:e_commerce_app/models/product_model.dart';
-import 'package:e_commerce_app/views/screens/details_Screen.dart';
+import 'package:e_commerce_app/views/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,48 +74,57 @@ class _GridWidgetState extends State<GridWidget> {
                   right: 8,
                   child: BlocBuilder<WishlistCubit, WishlistState>(
                     builder: (context, state) {
-                      final wishlistCubit = context.read<WishlistCubit>();
-                      final isInWishlist = wishlistCubit.isInWishlist(widget.product);
-                      if (widget.product.isAddedToWishlist != isInWishlist) {
-                        widget.product.isAddedToWishlist = isInWishlist;
-                      }
+                      if (state is WishlistLoaded) {
+                        final wishlistItems = state.wishlistItems;
+                        final isInWishlist = wishlistItems.any(
+                          (p) => p.id == widget.product.id,
+                        );
 
-                      return CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.white.withOpacity(0.8),
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: Icon(
-                            widget.product.isAddedToWishlist ? Icons.favorite : Icons.favorite_border,
-                            color: widget.product.isAddedToWishlist ? Colors.purple : Colors.grey,
-                            size: 24,
+                        return CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.white.withOpacity(0.8),
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              isInWishlist
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isInWishlist ? Colors.purple : Colors.grey,
+                              size: 24,
+                            ),
+                            onPressed: () {
+                              final wishlistCubit = context
+                                  .read<WishlistCubit>();
+                              if (isInWishlist) {
+                                wishlistCubit.removeFromWishlist(
+                                  widget.product,
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    elevation: 5,
+                                    content: Text(
+                                      "Product removed from wishlist!",
+                                    ),
+                                    duration: Duration(milliseconds: 500),
+                                  ),
+                                );
+                              } else {
+                                wishlistCubit.addToWishlist(widget.product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    behavior: SnackBarBehavior.floating,
+                                    elevation: 5,
+                                    content: Text("Product added to wishlist!"),
+                                    duration: Duration(milliseconds: 500),
+                                  ),
+                                );
+                              }
+                            },
                           ),
-                          onPressed: () {
-                            if (widget.product.isAddedToWishlist) {
-                              wishlistCubit.removeFromWishlist(widget.product);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  elevation: 5,
-                                  content: Text("Product removed from wishlist!"),
-                                  duration: Duration(milliseconds: 1250),
-                                ),
-                              );
-                            } else {
-                              wishlistCubit.addToWishlist(widget.product);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  elevation: 5,
-                                  content: Text("Product added to wishlist!"),
-                                  duration: Duration(milliseconds: 1250),
-                                ),
-                              );
-                            }
-                            setState(() {});
-                          },
-                        ),
-                      );
+                        );
+                      }
+                      return const SizedBox.shrink();
                     },
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_state.dart';
 import 'package:e_commerce_app/models/product_model.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
-import 'package:e_commerce_app/views/screens/details_Screen.dart';
+import 'package:e_commerce_app/views/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

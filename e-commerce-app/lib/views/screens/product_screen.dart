@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
 import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
+import 'package:e_commerce_app/controllers/auth/auth_states.dart';
 import 'package:e_commerce_app/controllers/product/product_cubit.dart';
 import 'package:e_commerce_app/controllers/product/product_state.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
@@ -24,7 +25,10 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductCubit>().fetchProducts();
+    final productCubit = context.read<ProductCubit>();
+    if (productCubit.state is ProductInitial) {
+      productCubit.fetchProducts();
+    }
     _searchController.addListener(() {
       setState(() {
         _searchText = _searchController.text;
@@ -40,6 +44,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -111,11 +116,10 @@ class _ProductScreenState extends State<ProductScreen> {
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 2),
                             ),
-                            child: const CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(
-                                'assets/images/cr7.jpg',
-                              ),
+                            child: Icon(
+                              Icons.person,
+                              size: 60,
+                              color: Colors.white,
                             ),
                           ),
                           const SizedBox(width: 15),
@@ -123,8 +127,10 @@ class _ProductScreenState extends State<ProductScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Mrh Raju',
+                                 Text(
+                                  BlocProvider.of<AuthCubit>(context).state is Authenticated
+                                      ? (BlocProvider.of<AuthCubit>(context).state as Authenticated).user.name
+                                      : 'Guest User',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -421,7 +427,7 @@ class _ProductScreenState extends State<ProductScreen> {
               }
               return RefreshIndicator(
                 onRefresh: () async {
-                  context.read<ProductCubit>().fetchProducts();
+                  await context.read<ProductCubit>().fetchProducts(force: true);
                 },
                 child: SingleChildScrollView(
                   child: Column(
@@ -499,8 +505,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       const SizedBox(height: 12),
                       GridView.builder(
                         shrinkWrap: true,
-                        physics:
-                            const NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,

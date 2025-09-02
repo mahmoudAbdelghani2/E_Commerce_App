@@ -25,13 +25,14 @@ void main() async {
   );
 
   const doSeed = true;
-    if (doSeed) {
-      try {
-        await FirestoreService().uploadProductsFromJson();
-      } catch (e) {
-        debugPrint('Product seeding failed: $e.');
-      }
+  if (doSeed) {
+    try {
+      await FirestoreService().fetchProducts();
+    } catch (e) {
+      debugPrint('Product seeding failed: $e.');
     }
+  }
+
   runApp(const MyApp());
 }
 
@@ -50,17 +51,14 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => BottomNavCubit()),
-        BlocProvider(create: (_) => WishlistCubit()),
-        BlocProvider(create: (_) => ProductCubit()),
+        BlocProvider(create: (_) => WishlistCubit(
+            FirestoreService(),
+            FirebaseAuth.instance.currentUser?.uid ?? ''
+        )),
+        BlocProvider(create: (_) => ProductCubit(FirestoreService())),
         BlocProvider(create: (_) => CartCubit()),
-        BlocProvider(create: (_) => ReviewCubit()),
-        BlocProvider(
-          create: (context) {
-            final authCubit = AuthCubit(_authService);
-            Future.microtask(() => authCubit.checkSavedCredentials());
-            return authCubit;
-          },
-        ),
+        BlocProvider(create: (_) => ReviewCubit(FirestoreService())),
+        BlocProvider(create: (_) => AuthCubit(_authService)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -71,6 +69,22 @@ class _MyAppState extends State<MyApp> {
             secondary: const Color(0xFF9775FA),
           ),
         ),
+        builder: (context, child) {
+          const double scale = 0.96;
+          final media = MediaQuery.of(context);
+          final scaled = media.copyWith(textScaleFactor: media.textScaleFactor * scale);
+          return MediaQuery(
+            data: scaled,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Transform.scale(
+                scale: scale,
+                alignment: Alignment.topLeft,
+                child: child,
+              ),
+            ),
+          );
+        },
         home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {

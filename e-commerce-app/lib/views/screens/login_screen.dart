@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
 import 'package:e_commerce_app/controllers/auth/auth_states.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
@@ -34,9 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const SignUpScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const SignUpScreen()),
               ),
             ),
           ),
@@ -129,18 +129,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
                     }
-                    if (value.length < 8) {
-                      return 'Password must be at least 8 characters';
+
+                    final password = value.trim();
+                    final regex = RegExp(
+                      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$',
+                    );
+
+                    if (!regex.hasMatch(password)) {
+                      return 'Password must be at least 8 characters and include upper, lower, and number';
                     }
-                    if (!RegExp(r'[a-z]').hasMatch(value)) {
-                      return 'Password must contain at least one lowercase letter';
-                    }
-                    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                      return 'Password must contain at least one uppercase letter';
-                    }
-                    if (!RegExp(r'\d').hasMatch(value)) {
-                      return 'Password must contain at least one number';
-                    }
+
                     return null;
                   },
                 ),
@@ -221,11 +219,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         final authCubit = context.read<AuthCubit>();
-                        
-                        // Clear any existing snackbars
+
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        
-                        // Show loading indicator
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Row(
@@ -236,116 +232,106 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                             backgroundColor: Colors.blue,
-                            duration: Duration(seconds: 10),
+                            duration: Duration(milliseconds: 500),
                           ),
                         );
-                        
+
                         try {
-                          
-                          
                           // Start the login process
                           await authCubit.logIn(
-                            _usernameController.text, 
+                            _usernameController.text,
                             _passwordController.text,
-                            rememberMe: isSwitched
                           );
-                          
+
                           if (!mounted) return;
-                          
-                          // Wait a moment to ensure the state has been updated
+
                           await Future.delayed(Duration(milliseconds: 500));
                           if (!mounted) return;
-                          
-                          // Get current state after login attempt
+
                           final currentState = authCubit.state;
-                          
-                          
-                          // Hide loading indicator
+
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          
+
                           if (currentState is Authenticated) {
-                            // Login succeeded
-                            
-                            
-                            // Show success message
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Login successful! Welcome back, ${currentState.user.name}'),
+                                content: Text(
+                                  'Login successful! Welcome back, ${currentState.user.name}',
+                                ),
                                 backgroundColor: Colors.green,
-                                duration: Duration(seconds: 2),
+                                duration: Duration(milliseconds: 500),
                               ),
                             );
-                            
-                            // Navigate to home screen
+
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
                             );
                           } else if (currentState is AuthError) {
-                            // Login failed with error
-                            
-                            
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Error: ${currentState.message}'),
                                 backgroundColor: Colors.red,
-                                duration: Duration(seconds: 5),
+                                duration: Duration(milliseconds: 500),
                               ),
                             );
                           } else {
                             // Unexpected state
-                            
-                            
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Login failed. Please try again.'),
+                                content: Text(
+                                  'Login failed. Please try again.',
+                                ),
                                 backgroundColor: Colors.orange,
-                                duration: Duration(seconds: 3),
+                                duration: Duration(milliseconds: 500),
                               ),
                             );
-                            
-                            // Check current user status
-                            final currentUser = FirebaseAuth.instance.currentUser;
-                            
-                            
+
+                            final currentUser =
+                                FirebaseAuth.instance.currentUser;
+
                             if (currentUser != null) {
-                              
-                              
-                              // Try to force reload user data
                               try {
                                 await authCubit.reloadUserData();
                                 if (!mounted) return;
 
-                                // Wait a moment and check state again
-                                await Future.delayed(Duration(milliseconds: 500));
+                                await Future.delayed(
+                                  Duration(milliseconds: 500),
+                                );
                                 if (!mounted) return;
 
                                 final newState = authCubit.state;
 
+                                if (!mounted) return;
                                 if (newState is Authenticated) {
                                   // Now we're authenticated, proceed to home screen
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeScreen(),
+                                    ),
                                   );
                                 }
                               } catch (e) {
-                                var _ = e; // intentionally ignore reload errors
+                                var _ = e; 
                               }
                             }
                           }
                         } catch (error) {
-                          // Hide loading indicator
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          
-                          
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Login error: ${error.toString()}'),
-                              backgroundColor: Colors.red,
-                              duration: Duration(seconds: 5),
-                            ),
-                          );
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Login error: ${error.toString()}'),
+                                    backgroundColor: Colors.red,
+                                    duration: Duration(milliseconds: 500),
+                                  ),
+                                );
                         }
                       }
                     },

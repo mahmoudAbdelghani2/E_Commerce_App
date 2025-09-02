@@ -1,51 +1,52 @@
+import 'package:e_commerce_app/controllers/wishlist/wishlist_state.dart';
 import 'package:e_commerce_app/models/product_model.dart';
+import 'package:e_commerce_app/services/firestore_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'wishlist_state.dart';
 
 class WishlistCubit extends Cubit<WishlistState> {
-  final List<ProductModel> _wishlist = [];
+  final FirestoreService _firestore;
+  final String userId;
 
-  WishlistCubit() : super(WishlistInitial());
+  WishlistCubit(this._firestore, this.userId) : super(WishlistInitial());
 
-  void loadWishlist() {
+  Future<void> loadWishlist() async {
     emit(WishlistLoading());
     try {
-      emit(WishlistLoaded(List.unmodifiable(_wishlist)));
+      final wishlist = await _firestore.fetchWishlist(userId);
+      emit(WishlistLoaded(wishlist));
     } catch (e) {
       emit(WishlistError(e.toString()));
     }
   }
 
-  void addToWishlist(ProductModel product) {
-    if (!isInWishlist(product)) {
-      // Update the product's wishlist status before adding
-      product.isAddedToWishlist = true;
-      _wishlist.add(product);
-    }
-    emit(WishlistLoaded(List.unmodifiable(_wishlist)));
-  }
-
-  void removeFromWishlist(ProductModel product) {
-    // Update the product's wishlist status before removing
-    product.isAddedToWishlist = false;
-    _wishlist.removeWhere((p) => p.id == product.id);
-    emit(WishlistLoaded(List.unmodifiable(_wishlist)));
-  }
-  
-  // Check if a product is in the wishlist by ID
-  bool isInWishlist(ProductModel product) {
-    return _wishlist.any((p) => p.id == product.id);
-  }
-  
-  // Synchronize product's wishlist status with the actual wishlist
-  void syncWishlistStatus(List<ProductModel> products) {
-    for (var product in products) {
-      product.isAddedToWishlist = isInWishlist(product);
+  Future<void> addToWishlist(ProductModel product) async {
+    try {
+      await _firestore.addToWishlist(userId, product);
+      await loadWishlist(); // عشان نرجّع الستيت الجديد
+    } catch (e) {
+      emit(WishlistError(e.toString()));
     }
   }
 
-  void clearWishlist() {
-    _wishlist.clear();
-    emit(WishlistLoaded([]));
+  Future<void> removeFromWishlist(ProductModel product) async {
+    try {
+      await _firestore.removeFromWishlist(userId, product.id.toString());
+      await loadWishlist();
+    } catch (e) {
+      emit(WishlistError(e.toString()));
+    }
+  }
+
+  Future<void> clearWishlist() async {
+    try {
+      await _firestore.clearWishlist(userId);
+      emit(WishlistLoaded([]));
+    } catch (e) {
+      emit(WishlistError(e.toString()));
+    }
+  }
+
+  bool isInWishlist(ProductModel product, List<ProductModel> wishlist) {
+    return wishlist.any((p) => p.id == product.id);
   }
 }

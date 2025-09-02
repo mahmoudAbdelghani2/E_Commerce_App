@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, curly_braces_in_flow_control_structures
 
 import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
@@ -38,9 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const OpenScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const OpenScreen()),
               ),
             ),
           ),
@@ -126,14 +124,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value == null || value.trim().isEmpty) {
                       return 'Please enter your username';
                     }
-                    if (value.trim().length < 6) {
-                      return 'Username must be at least 6 characters';
-                    }
-                    if (!RegExp(r'[a-z]').hasMatch(value)) {
-                      return 'Username must contain at least one lowercase letter';
-                    }
-                    if (!RegExp(r'\d').hasMatch(value)) {
-                      return 'Username must contain at least one number';
+                    final username = value.trim();
+                    final regex = RegExp(r'^(?=.*[a-z])(?=.*\d).{6,}$');
+                    if (!regex.hasMatch(username)) {
+                      return 'Username must be at least 6 characters, include lowercase and number';
                     }
                     return null;
                   },
@@ -163,17 +157,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
                     }
-                    if (value.length < 8) {
-                      return 'Password must be at least 8 characters';
-                    }
-                    if (!RegExp(r'[a-z]').hasMatch(value)) {
-                      return 'Password must contain at least one lowercase letter';
-                    }
-                    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-                      return 'Password must contain at least one uppercase letter';
-                    }
-                    if (!RegExp(r'\d').hasMatch(value)) {
-                      return 'Password must contain at least one number';
+                    final password = value.trim();
+                    final regex = RegExp(
+                      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$',
+                    );
+                    if (!regex.hasMatch(password)) {
+                      return 'Password must be at least 8 characters, include upper, lower, and number';
                     }
                     return null;
                   },
@@ -256,28 +245,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              CircularProgressIndicator(color: AppColors.buttonInSubmit),
+                              CircularProgressIndicator(
+                                color: AppColors.buttonInSubmit,
+                              ),
                               const SizedBox(height: 12),
                               const Text('Creating account...'),
                             ],
                           ),
                         ),
                       );
-
                       try {
                         await authCubit.signUp(
                           _nameController.text.trim(),
                           _emailController.text.trim(),
+                          _usernameController.text.trim(),
                           _passwordController.text,
                         );
-
-                        if (Navigator.canPop(context)) Navigator.of(context).pop();
+                        if (Navigator.canPop(context))
+                          Navigator.of(context).pop();
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Account created successfully!'),
                             backgroundColor: Colors.green,
-                            duration: Duration(milliseconds: 1250),
+                            duration: Duration(milliseconds: 500),
                           ),
                         );
 
@@ -286,18 +277,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           MaterialPageRoute(builder: (context) => HomeScreen()),
                         );
                       } catch (error) {
-                        if (Navigator.canPop(context)) Navigator.of(context).pop();
+                        if (Navigator.canPop(context))
+                          Navigator.of(context).pop();
 
                         var msg = error.toString();
-                        if (msg.contains('email-already-in-use')) msg = 'Email is already in use';
-                        if (msg.contains('weak-password')) msg = 'Password is too weak';
-                        if (msg.contains('invalid-email')) msg = 'Invalid email format';
+                        if (msg.contains('email-already-in-use'))
+                          msg = 'Email is already in use';
+                        if (msg.contains('weak-password'))
+                          msg = 'Password is too weak';
+                        if (msg.contains('invalid-email'))
+                          msg = 'Invalid email format';
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Failed to create account: $msg'),
                             backgroundColor: Colors.red,
-                            duration: const Duration(milliseconds: 1250),
+                            duration: const Duration(milliseconds: 500),
                           ),
                         );
                       }

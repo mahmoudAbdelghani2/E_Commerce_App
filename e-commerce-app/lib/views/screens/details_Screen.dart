@@ -20,6 +20,7 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  String? _selectedSize;
   @override
   void initState() {
     super.initState();
@@ -80,76 +81,145 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: (widget.product.images != null && widget.product.images!.isNotEmpty)
-                      ? Image.network(
-                          widget.product.images!.first,
-                          width: double.infinity,
-                          height: 220,
-                          fit: BoxFit.cover,
-                        )
-                      : Container(color: Colors.grey[200]),
+                  child: () {
+                    final mainImage =
+                        (widget.product.images != null &&
+                            widget.product.images!.isNotEmpty)
+                        ? widget.product.images!.first
+                        : null;
+                    if (mainImage != null && mainImage.isNotEmpty) {
+                      return Image.network(
+                        mainImage,
+                        width: double.infinity,
+                        height: 220,
+                        fit: BoxFit.cover,
+                      );
+                    }
+                    return Container(color: Colors.grey[200]);
+                  }(),
                 ),
               ),
               SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Title",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.secondaryText,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Title",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondaryText,
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "Price",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.secondaryText,
+                    const SizedBox(width: 270),
+                    Text(
+                      "Price",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondaryText,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.product.title!,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryText,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      widget.product.title ?? '',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryText,
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "\$${widget.product.price}",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryText,
+                    const SizedBox(width: 20),
+                    Text(
+                      "\$${widget.product.price}",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryText,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(height: 8),
               SizedBox(
                 height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: widget.product.images!.length,
+                  itemCount: widget.product.images?.length ?? 0,
                   itemBuilder: (context, index) {
+                    final img = (widget.product.images != null && index < widget.product.images!.length)
+                        ? widget.product.images![index]
+                        : null;
+
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Image.network(
-                        widget.product.images![index],
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
+                      child: GestureDetector(
+                        onLongPress: img != null && img.isNotEmpty
+                            ? () {
+                                showDialog(
+                                  context: context,
+                                  builder: (ctx) => Dialog(
+                                    insetPadding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // Close button
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: IconButton(
+                                            icon: const Icon(Icons.close),
+                                            onPressed: () => Navigator.of(ctx).pop(),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: InteractiveViewer(
+                                            panEnabled: true,
+                                            boundaryMargin: const EdgeInsets.all(20),
+                                            minScale: 0.5,
+                                            maxScale: 4.0,
+                                            child: Image.network(
+                                              img,
+                                              fit: BoxFit.contain,
+                                              loadingBuilder: (c, child, progress) {
+                                                if (progress == null) return child;
+                                                return const SizedBox(
+                                                  height: 200,
+                                                  child: Center(child: CircularProgressIndicator()),
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                            : null,
+                        child: img != null && img.isNotEmpty
+                            ? Image.network(
+                                img,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(
+                                width: 100,
+                                height: 100,
+                                color: Colors.grey[200],
+                              ),
                       ),
                     );
                   },
@@ -179,15 +249,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ],
               ),
               SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildSizeGuide("S"),
-                  _buildSizeGuide("M"),
-                  _buildSizeGuide("L"),
-                  _buildSizeGuide("XL"),
-                  _buildSizeGuide("2XL"),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildSizeGuide("S", _selectedSize == "S", () => setState(() => _selectedSize = "S")),
+                    _buildSizeGuide("M", _selectedSize == "M", () => setState(() => _selectedSize = "M")),
+                    _buildSizeGuide("L", _selectedSize == "L", () => setState(() => _selectedSize = "L")),
+                    _buildSizeGuide("XL", _selectedSize == "XL", () => setState(() => _selectedSize = "XL")),
+                    _buildSizeGuide("2XL", _selectedSize == "2XL", () => setState(() => _selectedSize = "2XL")),
+                  ],
+                ),
               ),
               SizedBox(height: 8),
               Text(
@@ -201,7 +274,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               SizedBox(height: 8),
               Text(
-                widget.product.description!,
+                widget.product.description ?? '',
                 style: TextStyle(fontSize: 19, color: AppColors.secondaryText),
               ),
               SizedBox(height: 8),
@@ -215,7 +288,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 textAlign: TextAlign.left,
               ),
               SizedBox(height: 8),
-              // Reviews section with navigation to all reviews
               BlocBuilder<ReviewCubit, ReviewState>(
                 builder: (context, state) {
                   if (state is ReviewLoading) {
@@ -223,10 +295,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   } else if (state is ReviewLoaded) {
                     final reviews = state.reviews.toList();
                     final reviewCubit = context.read<ReviewCubit>();
-                    
+
                     return Column(
                       children: [
-                        // Header with reviews count and navigation
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -247,20 +318,19 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     ),
                                   ),
                                 ).then((_) {
-                                  // Refresh reviews when returning from reviews screen
-                                  context.read<ReviewCubit>().loadReviews(widget.product.id.toString());
+                                  context.read<ReviewCubit>().loadReviews(
+                                    widget.product.id.toString(),
+                                  );
                                 });
                               },
                               child: const Text(
                                 "See All",
-                                style: TextStyle(
-                                  color: Colors.purple,
-                                ),
+                                style: TextStyle(color: Colors.purple),
                               ),
                             ),
                           ],
                         ),
-                        
+
                         if (reviews.isEmpty)
                           Container(
                             padding: const EdgeInsets.all(16),
@@ -270,7 +340,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.rate_review_outlined, color: Colors.grey),
+                                const Icon(
+                                  Icons.rate_review_outlined,
+                                  color: Colors.grey,
+                                ),
                                 const SizedBox(width: 8),
                                 const Expanded(
                                   child: Text(
@@ -284,7 +357,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ReviewScreen(
-                                          productId: widget.product.id.toString(),
+                                          productId: widget.product.id
+                                              .toString(),
                                         ),
                                       ),
                                     );
@@ -295,11 +369,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             ),
                           )
                         else
-                          _buildLatestReviewCard(reviews.last, reviewCubit.getAverageRating(reviews)),
+                          _buildLatestReviewCard(
+                            reviews.last,
+                            reviewCubit.getAverageRating(reviews),
+                          ),
                       ],
                     );
                   }
-                  
+
                   return const SizedBox();
                 },
               ),
@@ -348,14 +425,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         widget.product,
                                       );
                                       Navigator.of(context).pop();
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         const SnackBar(
                                           behavior: SnackBarBehavior.floating,
                                           elevation: 5,
                                           content: Text(
                                             "Product removed from cart!",
                                           ),
-                                          duration: Duration(milliseconds: 1250),
+                                          duration: Duration(
+                                            milliseconds: 500,
+                                          ),
                                         ),
                                       );
                                     },
@@ -388,7 +469,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       content: Text(
                                         "Product removed from cart!",
                                       ),
-                                      duration: Duration(milliseconds: 1250),
+                                      duration: Duration(milliseconds: 500),
                                     ),
                                   );
                                 },
@@ -400,7 +481,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             ),
                           );
                         }
-                        setState(() {}); // Force UI update
+                        setState(() {}); 
                       },
                       child: Text(
                         isInCart ? "Remove from cart" : "Add to cart",
@@ -422,23 +503,33 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 }
 
-Widget _buildSizeGuide(String size) {
-  return Container(
-    width: 70,
-    height: 70,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      color: Color(0xFFF5F6FA),
-    ),
-    child: Center(
-      child: Text(
-        size,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: AppColors.primaryText,
+Widget _buildSizeGuide(String size, bool isSelected, VoidCallback onTap) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isSelected ? Colors.purple[400] : Color(0xFFF5F6FA),
+          border: Border.all(
+            color: isSelected ? Colors.purple : Colors.grey.shade300,
+            width: isSelected ? 2 : 1,
+          ),
         ),
-        textAlign: TextAlign.center,
+        child: Center(
+          child: Text(
+            size,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? Colors.white : AppColors.primaryText,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     ),
   );
@@ -467,35 +558,32 @@ Widget _buildLatestReviewCard(ReviewModel review, double averageRating) {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
-            
-            // User name
-            Expanded(
-              child: Text(
-                review.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  review.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
+                const SizedBox(height: 4),
+                _buildStarRating(review.rating),
+              ],
             ),
-            
-            // Rating
-            _buildStarRating(review.rating),
           ],
         ),
-        
+
         const SizedBox(height: 8),
-        
+
         // Review text
         Text(
           review.experience,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: Colors.grey[700],
-            fontSize: 14,
-          ),
+          style: TextStyle(color: Colors.grey[700], fontSize: 14),
         ),
       ],
     ),
