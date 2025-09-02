@@ -171,32 +171,6 @@ class _OpenScreenState extends State<OpenScreen> {
                               ),
                             ),
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.buttonInSubmit,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 0,
-                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                            ),
-                            onPressed: () {
-                              final selectedGender = isSelected1 ? 'Male' : 'Female';
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpScreen(selectedGender: selectedGender),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              "Continue",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ],

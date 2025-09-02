@@ -1,20 +1,19 @@
+// review_state.dart
 part of 'review_cubit.dart';
 
 @immutable
-sealed class ReviewState {}
+abstract class ReviewState {}
 
-final class ReviewInitial extends ReviewState {}
+class ReviewInitial extends ReviewState {}
 
-final class ReviewLoading extends ReviewState {}
+class ReviewLoading extends ReviewState {}
 
-final class ReviewLoaded extends ReviewState {
-  final List<dynamic> reviews;
-  
+class ReviewLoaded extends ReviewState {
+  final List<ReviewModel> reviews;
   ReviewLoaded(this.reviews);
 }
 
-final class ReviewError extends ReviewState {
+class ReviewError extends ReviewState {
   final String message;
-  
   ReviewError(this.message);
 }

@@ -6,7 +6,7 @@ class ProductModel {
   String? category;
   String? brand;
   String? image;
-  List<String>? images; // Added this field
+  List<String>? images;
   Rating? rating;
 
   bool isAddedToCart;
@@ -21,7 +21,7 @@ class ProductModel {
     this.category,
     this.brand,
     this.image,
-    this.images, // Added to constructor
+    this.images,
     this.rating,
     this.isAddedToCart = false,
     this.isAddedToWishlist = false,
@@ -38,7 +38,7 @@ class ProductModel {
         category = json['category'],
         brand = json['brand'],
         image = json['image'],
-        images = json['images'] != null ? List<String>.from(json['images']) : null, // Added parsing
+        images = json['images'] != null ? List<String>.from(json['images']) : null, 
         rating = json['rating'] != null ? Rating.fromJson(json['rating']) : null,
         isAddedToCart = json['isAddedToCart'] ?? false,
         isAddedToWishlist = json['isAddedToWishlist'] ?? false,
@@ -53,7 +53,7 @@ class ProductModel {
       'category': category,
       'brand': brand,
       'image': image,
-      'images': images, // Added to JSON
+      'images': images,
       'rating': rating?.toJson(),
       'isAddedToCart': isAddedToCart,
       'isAddedToWishlist': isAddedToWishlist,
@@ -69,7 +69,7 @@ class ProductModel {
     String? category,
     String? brand,
     String? image,
-    List<String>? images, // Added to copyWith
+    List<String>? images, 
     Rating? rating,
     bool? isAddedToCart,
     bool? isAddedToWishlist,
@@ -83,7 +83,7 @@ class ProductModel {
       category: category ?? this.category,
       brand: brand ?? this.brand,
       image: image ?? this.image,
-      images: images ?? this.images, // Added to copyWith
+      images: images ?? this.images,
       rating: rating ?? this.rating,
       isAddedToCart: isAddedToCart ?? this.isAddedToCart,
       isAddedToWishlist: isAddedToWishlist ?? this.isAddedToWishlist,

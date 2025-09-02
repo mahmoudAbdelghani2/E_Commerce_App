@@ -68,8 +68,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           } else if (state is ReviewError) {
             return Center(child: Text(state.message));
           } else if (state is ReviewLoaded) {
-            final reviews = state.reviews.map((r) => r as ReviewModel).toList();
-
+            final reviews = state.reviews.toList();
             if (reviews.isEmpty) {
               return Center(
                 child: Column(

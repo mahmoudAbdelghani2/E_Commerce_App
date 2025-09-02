@@ -21,7 +21,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   
   late TextEditingController _nameController;
   late TextEditingController _experienceController;
-  double _rating = 3.0; // Default rating
+  double _rating = 3.0;
   
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
       );
       
       context.read<ReviewCubit>().addReview(widget.productId, reviewModel);
-      Navigator.pop(context, true); // Return true to indicate a successful submission
+      Navigator.pop(context, true);
     }
   }
 

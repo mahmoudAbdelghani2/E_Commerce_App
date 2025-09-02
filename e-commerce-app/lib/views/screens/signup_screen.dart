@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
-  final String? selectedGender;
-  
-  const SignUpScreen({super.key, this.selectedGender});
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -247,84 +245,61 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       elevation: 0,
                     ),
                     onPressed: () async {
-                      setState(() {
-                        showValidationErrors = true;
-                      });
-                      if (_formKey.currentState!.validate()) {
-                        try {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => AlertDialog(
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CircularProgressIndicator(color: AppColors.buttonInSubmit),
-                                  SizedBox(height: 16),
-                                  Text("Creating account... Please wait"),
-                                ],
-                              ),
-                            ),
-                          );
-                          
-                          final authCubit = context.read<AuthCubit>();
-                          
-                          if (widget.selectedGender != null) {
-                            await authCubit.signUpWithGender(
-                              _nameController.text, 
-                              _emailController.text, 
-                              _passwordController.text,
-                              gender: widget.selectedGender
-                            );
-                          } else {
-                            await authCubit.signUp(
-                              _nameController.text, 
-                              _emailController.text, 
-                              _passwordController.text
-                            );
-                          }
-                          
-                          await Future.delayed(Duration(milliseconds: 500));
-                          
-                          if (Navigator.canPop(context)) {
-                            Navigator.of(context).pop();
-                          }
-                          
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Account created successfully! Redirecting to home...'),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                          
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomeScreen()),
-                          );
-                        } catch (error) {
-                          if (Navigator.canPop(context)) {
-                            Navigator.of(context).pop();
-                          }
-                          
-                          String errorMessage = error.toString();
-                          if (errorMessage.contains("email-already-in-use")) {
-                            errorMessage = "Email is already in use";
-                          } else if (errorMessage.contains("weak-password")) {
-                            errorMessage = "Password is too weak";
-                          } else if (errorMessage.contains("invalid-email")) {
-                            errorMessage = "Invalid email format";
-                          } else if (errorMessage.contains("permission-denied")) {
-                            errorMessage = "Permission denied. Check Firebase rules";
-                          }
-                          
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Failed to create account: $errorMessage'),
-                              backgroundColor: Colors.red,
-                              duration: Duration(seconds: 5),
-                            ),
-                          );
-                        }
+                      setState(() => showValidationErrors = true);
+                      if (!_formKey.currentState!.validate()) return;
+
+                      final authCubit = context.read<AuthCubit>();
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) => AlertDialog(
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CircularProgressIndicator(color: AppColors.buttonInSubmit),
+                              const SizedBox(height: 12),
+                              const Text('Creating account...'),
+                            ],
+                          ),
+                        ),
+                      );
+
+                      try {
+                        await authCubit.signUp(
+                          _nameController.text.trim(),
+                          _emailController.text.trim(),
+                          _passwordController.text,
+                        );
+
+                        if (Navigator.canPop(context)) Navigator.of(context).pop();
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Account created successfully!'),
+                            backgroundColor: Colors.green,
+                            duration: Duration(milliseconds: 1250),
+                          ),
+                        );
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      } catch (error) {
+                        if (Navigator.canPop(context)) Navigator.of(context).pop();
+
+                        var msg = error.toString();
+                        if (msg.contains('email-already-in-use')) msg = 'Email is already in use';
+                        if (msg.contains('weak-password')) msg = 'Password is too weak';
+                        if (msg.contains('invalid-email')) msg = 'Invalid email format';
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Failed to create account: $msg'),
+                            backgroundColor: Colors.red,
+                            duration: const Duration(milliseconds: 1250),
+                          ),
+                        );
                       }
                     },
                     child: const Text(

@@ -221,7 +221,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   if (state is ReviewLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is ReviewLoaded) {
-                    final reviews = state.reviews.map((r) => r as ReviewModel).toList();
+                    final reviews = state.reviews.toList();
                     final reviewCubit = context.read<ReviewCubit>();
                     
                     return Column(
