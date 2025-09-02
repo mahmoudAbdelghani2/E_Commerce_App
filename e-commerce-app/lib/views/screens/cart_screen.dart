@@ -1,12 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
-import 'package:e_commerce_app/controllers/adress/adress_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_state.dart';
-import 'package:e_commerce_app/models/adress_model.dart';
 import 'package:e_commerce_app/utils/app_colors.dart';
-import 'package:e_commerce_app/views/screens/add_address_screen.dart';
 import 'package:e_commerce_app/views/screens/confirmed_screen.dart';
 import 'package:e_commerce_app/views/widgets/list_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +21,7 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     context.read<CartCubit>().loadCart();
-    context.read<AdressCubit>().loadAddress(context: context);
+  // Address feature removed — Cart shows a fixed delivery address
   }
 
   @override
@@ -140,78 +137,25 @@ class _CartScreenState extends State<CartScreen> {
                             color: AppColors.primaryText,
                           ),
                         ),
-                        IconButton(
-                          onPressed: () async {
-                            // Navigate to address screen
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddAddressScreen(
-                                  onAddressAdded: (newAddress) {
-                                    context.read<AdressCubit>().saveAddress(newAddress);
-                                  },
-                                  isFirstAddress: true,
-                                ),
-                              ),
-                            );
-                            
-                            // Refresh address display
-                            context.read<AdressCubit>().loadAddress(context: context);
-                          },
-                          icon: Icon(Icons.arrow_forward_ios),
-                          color: AppColors.primaryText,
-                        ),
                       ],
                     ),
-                    BlocBuilder<AdressCubit, AdressState>(
-                      builder: (context, state) {
-                        if (state is AdressLoaded) {
-                          final address = state.address as AddressModel?;
-                          
-                          if (address == null) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: const Text(
-                                "No address added",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            );
-                          }
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(
-                              "${address.address}, ${address.city}, ${address.country}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: AppColors.secondaryText,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "${address.name} | ${address.phoneNumber}",
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: AppColors.secondaryText,
-                              ),
-                            ),
-                          );
-                        } else if (state is AdressLoading) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: const Text(
-                              "Please add a delivery address.",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                              ),
-                            ),
-                          );
-                        }
-                      },
+                    // Fixed delivery address (hardcoded)
+                    const ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        "abokabir, cairo, egypt",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: AppColors.secondaryText,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Store | 01001373691",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.secondaryText,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 5),
                     Row(
@@ -316,88 +260,54 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    BlocBuilder<AdressCubit, AdressState>(
-                      builder: (context, addressState) {
-                        // Check if user has a saved address
-                        bool hasAddress = false;
-                        if (addressState is AdressLoaded && addressState.address != null) {
-                          hasAddress = true;
-                        }
-                        
-                        return SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: ElevatedButton(
-                            onPressed: hasAddress ? () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Checkout'),
-                                  content: const Text('Proceed to checkout?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        BlocProvider.of<CartCubit>(
-                                          context,
-                                        ).clearCart();
-                                        Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ConfirmedScreen(),
-                                          ),
-                                        );
-                                      },
-                                      child: const Text('Confirm'),
-                                    ),
-                                  ],
+                    SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Checkout'),
+                              content: const Text('Proceed to checkout?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('Cancel'),
                                 ),
-                              );
-                            } : () {
-                              // If no address, prompt user to add one
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: const Text('Please add a delivery address before checkout.'),
-                                  action: SnackBarAction(
-                                    label: 'Add Address',
-                                    onPressed: () async {
-                                      // Navigate to address screen
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => AddAddressScreen(
-                                            onAddressAdded: (newAddress) {
-                                              context.read<AdressCubit>().saveAddress(newAddress);
-                                            },
-                                            isFirstAddress: true,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                TextButton(
+                                  onPressed: () {
+                                    BlocProvider.of<CartCubit>(
+                                      context,
+                                    ).clearCart();
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ConfirmedScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('Confirm'),
                                 ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              backgroundColor: hasAddress ? Theme.of(context).primaryColor : Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                              ],
                             ),
-                            child: const Text(
-                              'Checkout',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.primaryBackground,
-                              ),
-                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          backgroundColor: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                        );
-                      },
+                        ),
+                        child: const Text(
+                          'Checkout',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: AppColors.primaryBackground,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

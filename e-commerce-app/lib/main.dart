@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
-import 'package:e_commerce_app/controllers/adress/adress_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
 import 'package:e_commerce_app/controllers/product/product_cubit.dart';
 import 'package:e_commerce_app/controllers/review/review_cubit.dart';
@@ -25,7 +24,20 @@ void main() async {
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
+   await FirebaseFirestore.instance.collection('products').doc('21').set(
+    {
+    "id": 21,
+    "title": "Nike Training T-Shirt",
+    "price": 30,
+    "description": "Men's Nike Dri-FIT short sleeve training t-shirt.",
+    "category": "men",
+    "brand": "Nike",
+      "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+    });
 
+    await FirebaseFirestore.instance.collection('products').doc('21').collection("product_images").add({
+      "image": "https://res.cloudinary.com/dxpjipiyh/image/upload/v1756682423/1_lrsziy.jpg",
+    });
   // This will upload all products and images every time the app starts.
   // It is recommended to remove this line in a production environment.
   try {
@@ -33,7 +45,7 @@ void main() async {
   } catch (e) {
 
     // Handle the error appropriately in a real app
-    debugPrint('MAHMOUD :::Error uploading products and images: $e');
+  debugPrint('MAHMOUD :::Error uploading products and images: $e');
   }
   runApp(const MyApp());
 }
@@ -55,8 +67,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (_) => BottomNavCubit()),
         BlocProvider(create: (_) => WishlistCubit()),
         BlocProvider(create: (_) => ProductCubit()),
-        BlocProvider(create: (_) => CartCubit()),
-        BlocProvider(create: (_) => AdressCubit()),
+  BlocProvider(create: (_) => CartCubit()),
         BlocProvider(create: (_) => ReviewCubit()),
         BlocProvider(create: (context) {
           final authCubit = AuthCubit(_authService);
@@ -86,11 +97,11 @@ class _MyAppState extends State<MyApp> {
               );
             } else if (snapshot.hasData) {
               // إذا كان المستخدم مسجل الدخول
-              print("User is authenticated: ${snapshot.data?.uid}");
+              
               return HomeScreen();
             } else {
               // إذا لم يكن المستخدم مسجل الدخول
-              print("User is not authenticated");
+              
               return OpenScreen();
             }
           },

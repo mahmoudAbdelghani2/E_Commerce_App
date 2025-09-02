@@ -66,6 +66,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                height: 220,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
@@ -79,11 +80,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    widget.product.image!,
-                    height: 300,
-                    fit: BoxFit.cover,
-                  ),
+                  child: (widget.product.images != null && widget.product.images!.isNotEmpty)
+                      ? Image.network(
+                          widget.product.images!.first,
+                          width: double.infinity,
+                          height: 220,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(color: Colors.grey[200]),
                 ),
               ),
               SizedBox(height: 16),
@@ -344,15 +348,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         widget.product,
                                       );
                                       Navigator.of(context).pop();
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           behavior: SnackBarBehavior.floating,
                                           elevation: 5,
                                           content: Text(
                                             "Product removed from cart!",
                                           ),
+                                          duration: Duration(milliseconds: 1250),
                                         ),
                                       );
                                     },
@@ -385,6 +388,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       content: Text(
                                         "Product removed from cart!",
                                       ),
+                                      duration: Duration(milliseconds: 1250),
                                     ),
                                   );
                                 },

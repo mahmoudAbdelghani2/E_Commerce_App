@@ -241,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                         
                         try {
-                          print("Login Screen: Starting login process with email: ${_usernameController.text}");
+                          
                           
                           // Start the login process
                           await authCubit.logIn(
@@ -250,19 +250,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             rememberMe: isSwitched
                           );
                           
+                          if (!mounted) return;
+                          
                           // Wait a moment to ensure the state has been updated
                           await Future.delayed(Duration(milliseconds: 500));
+                          if (!mounted) return;
                           
                           // Get current state after login attempt
                           final currentState = authCubit.state;
-                          print("Login Screen: Current auth state after login: $currentState");
+                          
                           
                           // Hide loading indicator
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           
                           if (currentState is Authenticated) {
                             // Login succeeded
-                            print("Login Screen: Authentication successful for ${currentState.user.name}");
+                            
                             
                             // Show success message
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -280,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           } else if (currentState is AuthError) {
                             // Login failed with error
-                            print("Login Screen: Authentication error: ${currentState.message}");
+                            
                             
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -291,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           } else {
                             // Unexpected state
-                            print("Login Screen: Unexpected state after login: $currentState");
+                            
                             
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -303,29 +306,31 @@ class _LoginScreenState extends State<LoginScreen> {
                             
                             // Check current user status
                             final currentUser = FirebaseAuth.instance.currentUser;
-                            print("Current Firebase user is: ${currentUser?.uid ?? 'null'}");
+                            
                             
                             if (currentUser != null) {
-                              print("User is authenticated in Firebase but state is not Authenticated");
+                              
                               
                               // Try to force reload user data
                               try {
                                 await authCubit.reloadUserData();
-                                
+                                if (!mounted) return;
+
                                 // Wait a moment and check state again
                                 await Future.delayed(Duration(milliseconds: 500));
+                                if (!mounted) return;
+
                                 final newState = authCubit.state;
-                                
+
                                 if (newState is Authenticated) {
                                   // Now we're authenticated, proceed to home screen
-                                  print("Login Screen: Authentication successful after reload");
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => HomeScreen()),
                                   );
                                 }
                               } catch (e) {
-                                print("Error reloading user data: $e");
+                                var _ = e; // intentionally ignore reload errors
                               }
                             }
                           }
@@ -333,7 +338,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Hide loading indicator
                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
                           
-                          print("Exception during login: $error");
+                          
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Login error: ${error.toString()}'),

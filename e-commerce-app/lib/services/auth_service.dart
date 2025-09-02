@@ -20,8 +20,7 @@ class AuthService {
     required String password,
     String? gender,
   }) async {
-    try {
-      print("Creating new user with email: $email, gender: $gender");
+  try {
       
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -31,7 +30,7 @@ class AuthService {
       User? user = userCredential.user;
 
       if (user != null) {
-        print("User created successfully with UID: ${user.uid}");
+        
         
         PersonModel person = PersonModel(
           id: user.uid,
@@ -42,17 +41,13 @@ class AuthService {
         );
         await user.updateDisplayName(name);
         
-        print("Saving user data to Firestore...");
-        Map<String, dynamic> userData = person.toMap();
-        print("User data to save: $userData");
+  Map<String, dynamic> userData = person.toMap();
         
         try {
           await _firestore.collection('users').doc(user.uid).set(userData);
-          print("User data saved successfully to Firestore");
           
           DocumentSnapshot docCheck = await _firestore.collection('users').doc(user.uid).get();
           if (!docCheck.exists) {
-            print("WARNING: Document wasn't saved properly. Trying again...");
             await _firestore.collection('users').doc(user.uid).set(userData);
             
             docCheck = await _firestore.collection('users').doc(user.uid).get();
@@ -61,14 +56,11 @@ class AuthService {
             }
           }
         } catch (firestoreError) {
-          print("Error saving user data to Firestore: $firestoreError");
+          
           
           try {
             await user.delete();
-            print("Deleted user from Firebase Auth due to Firestore error");
-          } catch (deleteError) {
-            print("Error deleting user after Firestore failure: $deleteError");
-          }
+          } catch (deleteError) {}
           
           throw "Failed to create user account: $firestoreError";
         }
@@ -76,7 +68,6 @@ class AuthService {
         throw "Failed to create user - user ID was not received";
       }
     } catch (e) {
-      print("Error during signup: $e");
       rethrow;
     }
   }
@@ -87,7 +78,6 @@ class AuthService {
     bool rememberMe = false,
   }) async {
     try {
-      print("AuthService: Attempting login for email: $email");
       
       try {
         // Try to sign in
@@ -96,37 +86,31 @@ class AuthService {
           password: password
         );
         
-        print("AuthService: Login successful. User ID: ${userCredential.user?.uid}");
+        
         
         // Verify user is actually logged in
         if (userCredential.user == null) {
-          print("AuthService: ERROR - user is null after successful login");
           throw "Login failed - unable to authenticate";
         }
         
         // Save credentials if rememberMe is true
         if (rememberMe) {
-          print("AuthService: Saving credentials for remember me");
+          
           final prefs = await SharedPreferences.getInstance();
           await prefs.setBool(_rememberMeKey, true);
           await prefs.setString(_emailKey, email);
           await prefs.setString(_passwordKey, password);
         } else {
           // Clear saved credentials if rememberMe is false
-          print("AuthService: Clearing saved credentials");
+          
           await clearSavedCredentials();
         }
         
         // Verify that Firebase Auth state has been updated
-        if (_auth.currentUser == null) {
-          print("AuthService: WARNING - currentUser is null after successful login");
-        } else {
-          print("AuthService: currentUser verified: ${_auth.currentUser!.uid}");
-        }
+        
       } catch (e) {
         // Handle specific Firebase Auth errors
-        if (e is FirebaseAuthException) {
-          print("AuthService: Firebase Auth exception: ${e.code} - ${e.message}");
+  if (e is FirebaseAuthException) {
           switch (e.code) {
             case 'user-not-found':
               throw 'Email not found. Please check your email or sign up first.';
@@ -143,7 +127,6 @@ class AuthService {
         rethrow;
       }
     } catch (e) {
-      print("AuthService: Login error: $e");
       rethrow;
     }
   }
@@ -176,7 +159,7 @@ class AuthService {
 
   Future<PersonModel?> getUserData(String uid) async {
     try {
-      print("Fetching user data from Firestore for UID: $uid");
+      
       
       // Add multiple attempts to get user data
       int maxRetries = 3;
@@ -188,14 +171,14 @@ class AuthService {
           // الحصول على وثيقة المستخدم من Firestore
           DocumentSnapshot doc = await _firestore.collection('users').doc(uid).get();
           
-          print("Firestore document exists: ${doc.exists}");
+          
           if (doc.exists && doc.data() != null) {
             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-            print("Document data retrieved from Firestore: $data");
+            
             
             // التأكد من أن البيانات الأساسية موجودة
             if (!data.containsKey('name') || !data.containsKey('email')) {
-              print("WARNING: User document exists but missing essential fields");
+              
               
               // تحديث البيانات الناقصة من حساب Firebase Auth
               User? authUser = _auth.currentUser;
@@ -211,20 +194,20 @@ class AuthService {
                 
                 // تحديث الوثيقة في Firestore
                 await _firestore.collection('users').doc(uid).update(data);
-                print("Updated missing fields in user document");
+                
               }
             }
             
             // إنشاء نموذج المستخدم من البيانات
             PersonModel user = PersonModel.fromMap(data);
-            print("Successfully created PersonModel from Firestore data");
+            
             return user;
           } else {
             // إذا كانت الوثيقة غير موجودة في Firestore ولكن المستخدم مصادق عليه،
             // يمكننا محاولة إنشاء ملف تعريف مستخدم باستخدام بيانات Firebase Auth
             User? authUser = _auth.currentUser;
             if (authUser != null && authUser.uid == uid) {
-              print("Creating new user profile from Auth data for UID: $uid");
+              
               
               // جلب البريد الإلكتروني للمستخدم من Firebase Auth
               String email = authUser.email ?? "";
@@ -239,14 +222,14 @@ class AuthService {
               );
               
               // محاولة حفظ البيانات في Firestore
-              print("Creating new user document in Firestore: ${person.toMap()}");
+              
               await _firestore.collection('users').doc(uid).set(person.toMap());
-              print("New user document created successfully in Firestore");
+              
               
               // تحقق من أن البيانات تم حفظها بنجاح
               DocumentSnapshot verifyDoc = await _firestore.collection('users').doc(uid).get();
               if (!verifyDoc.exists) {
-                print("WARNING: Document wasn't saved properly, will retry");
+                
                 throw Exception("Document wasn't saved properly");
               }
               
@@ -254,13 +237,13 @@ class AuthService {
             }
             
             if (retryCount == maxRetries - 1) {
-              print("User document not found in Firestore after all retries");
+              
               return null;
             }
           }
         } catch (e) {
           lastError = e as Exception;
-          print("Error fetching user data (attempt ${retryCount + 1}): $e");
+          
           await Future.delayed(Duration(milliseconds: 1000));
         }
         
@@ -273,18 +256,16 @@ class AuthService {
       
       return null;
     } catch (e) {
-      print("Error fetching user data: $e");
+      
       rethrow;
     }
   }
   
   Future<void> saveUserData(PersonModel person) async {
     try {
-      print("Saving user data to Firestore: ${person.toMap()}");
-      await _firestore.collection('users').doc(person.id).set(person.toMap());
-      print("User data saved successfully");
+  await _firestore.collection('users').doc(person.id).set(person.toMap());
     } catch (e) {
-      print("Error saving user data: $e");
+      
       rethrow;
     }
   }

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
 import 'package:e_commerce_app/controllers/auth/auth_cubit.dart';
 import 'package:e_commerce_app/controllers/product/product_cubit.dart';
@@ -73,9 +73,7 @@ class _ProductScreenState extends State<ProductScreen> {
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 16),
-              decoration: const BoxDecoration(
-                gradient: AppColors.mainGradient,
-              ),
+              decoration: const BoxDecoration(gradient: AppColors.mainGradient),
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +89,11 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                         child: Center(
                           child: IconButton(
-                            icon: const Icon(Icons.close, size: 20, color: Colors.white),
+                            icon: const Icon(
+                              Icons.close,
+                              size: 20,
+                              color: Colors.white,
+                            ),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -111,7 +113,9 @@ class _ProductScreenState extends State<ProductScreen> {
                             ),
                             child: const CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage('assets/images/cr7.jpg'),
+                              backgroundImage: AssetImage(
+                                'assets/images/cr7.jpg',
+                              ),
                             ),
                           ),
                           const SizedBox(width: 15),
@@ -197,7 +201,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: AppColors.buttonInSubmit.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.info_outline, color: AppColors.buttonInSubmit),
+                  child: const Icon(
+                    Icons.info_outline,
+                    color: AppColors.buttonInSubmit,
+                  ),
                 ),
                 title: const Text(
                   'Account Information',
@@ -223,7 +230,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: AppColors.buttonInSubmit.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.lock_outline, color: AppColors.buttonInSubmit),
+                  child: const Icon(
+                    Icons.lock_outline,
+                    color: AppColors.buttonInSubmit,
+                  ),
                 ),
                 title: const Text(
                   'Password',
@@ -245,7 +255,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: AppColors.buttonInSubmit.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.shopping_bag_outlined, color: AppColors.buttonInSubmit),
+                  child: const Icon(
+                    Icons.shopping_bag_outlined,
+                    color: AppColors.buttonInSubmit,
+                  ),
                 ),
                 title: const Text(
                   'Orders',
@@ -271,7 +284,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: AppColors.buttonInSubmit.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.credit_card_outlined, color: AppColors.buttonInSubmit),
+                  child: const Icon(
+                    Icons.credit_card_outlined,
+                    color: AppColors.buttonInSubmit,
+                  ),
                 ),
                 title: const Text(
                   'My Cards',
@@ -293,7 +309,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: AppColors.buttonInSubmit.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.favorite_border_outlined, color: AppColors.buttonInSubmit),
+                  child: const Icon(
+                    Icons.favorite_border_outlined,
+                    color: AppColors.buttonInSubmit,
+                  ),
                 ),
                 title: const Text(
                   'Wishlist',
@@ -319,7 +338,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: AppColors.buttonInSubmit.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.settings_outlined, color: AppColors.buttonInSubmit),
+                  child: const Icon(
+                    Icons.settings_outlined,
+                    color: AppColors.buttonInSubmit,
+                  ),
                 ),
                 title: const Text(
                   'Settings',
@@ -401,101 +423,98 @@ class _ProductScreenState extends State<ProductScreen> {
                 onRefresh: () async {
                   context.read<ProductCubit>().fetchProducts();
                 },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 12),
-                    const Text(
-                      "Hello",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryText,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                    const SizedBox(height: 5),
-                    const Text(
-                      "Welcome to Laza",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: AppColors.secondaryText,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(child: _search(_searchController)),
-                        const SizedBox(width: 12),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: AppColors.buttonSelectedInSignUp,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(Icons.mic, color: Colors.white),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 12),
+                      const Text(
+                        "Hello",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryText,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        const Text(
-                          "Choose Brand",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryText,
-                          ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text(
+                        "Welcome to Laza",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: AppColors.secondaryText,
                         ),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedBrand = null;
-                            });
-                          },
-                          child: const Text(
-                            "View All",
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(child: _search(_searchController)),
+                          const SizedBox(width: 12),
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: AppColors.buttonSelectedInSignUp,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Icon(Icons.mic, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          const Text(
+                            "Choose Brand",
                             style: TextStyle(
-                              fontSize: 18,
-                              color: AppColors.secondaryText,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryText,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: brands
-                            .map((brand) => _brandButton(brand))
-                            .toList(),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Expanded(
-                      child: brandFiltered.isEmpty
-                          ? const Center(child: Text('No products found.'))
-                          : GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 0.7,
-                                    crossAxisSpacing: 8.0,
-                                    mainAxisSpacing: 8.0,
-                                  ),
-                              itemCount: brandFiltered.length,
-                              itemBuilder: (context, index) {
-                                return GridWidget(
-                                  product: brandFiltered[index],
-                                );
-                              },
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectedBrand = null;
+                              });
+                            },
+                            child: const Text(
+                              "View All",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: AppColors.secondaryText,
+                              ),
                             ),
-                    ),
-                  ],
+                          ),
+                        ],
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: brands
+                              .map((brand) => _brandButton(brand))
+                              .toList(),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics:
+                            const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.67,
+                              crossAxisSpacing: 8.0,
+                              mainAxisSpacing: 8.0,
+                            ),
+                        itemCount: brandFiltered.length,
+                        itemBuilder: (context, index) {
+                          return GridWidget(product: brandFiltered[index]);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               );
             } else {
