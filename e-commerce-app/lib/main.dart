@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:e_commerce_app/controllers/ButtomNav/bottomNav_cubit.dart';
 import 'package:e_commerce_app/controllers/cart/cart_cubit.dart';
 import 'package:e_commerce_app/controllers/product/product_cubit.dart';
@@ -69,22 +71,6 @@ class _MyAppState extends State<MyApp> {
             secondary: const Color(0xFF9775FA),
           ),
         ),
-        builder: (context, child) {
-          const double scale = 0.96;
-          final media = MediaQuery.of(context);
-          final scaled = media.copyWith(textScaleFactor: media.textScaleFactor * scale);
-          return MediaQuery(
-            data: scaled,
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Transform.scale(
-                scale: scale,
-                alignment: Alignment.topLeft,
-                child: child,
-              ),
-            ),
-          );
-        },
         home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
