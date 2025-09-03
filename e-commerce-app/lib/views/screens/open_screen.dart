@@ -156,7 +156,7 @@ class _OpenScreenState extends State<OpenScreen> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SignUpScreen(),
