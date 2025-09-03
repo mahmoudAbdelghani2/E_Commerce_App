@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             backgroundColor: const Color(0xFFF5F6FA),
             child: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.of(context).push(
+              onPressed: () => Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const OpenScreen()),
               ),
             ),

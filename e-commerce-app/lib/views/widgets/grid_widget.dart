@@ -6,6 +6,7 @@ import 'package:e_commerce_app/models/product_model.dart';
 import 'package:e_commerce_app/views/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:like_button/like_button.dart';
 
 class GridWidget extends StatefulWidget {
   final ProductModel product;
@@ -83,19 +84,30 @@ class _GridWidgetState extends State<GridWidget> {
                         return CircleAvatar(
                           radius: 18,
                           backgroundColor: Colors.white.withOpacity(0.8),
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            icon: Icon(
-                              isInWishlist
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: isInWishlist ? Colors.purple : Colors.grey,
-                              size: 24,
+                          child: LikeButton(
+                            size: 24,
+                            isLiked: isInWishlist,
+                            circleColor: const CircleColor(
+                              start: Color(0xff9b5de5),
+                              end: Color(0xfff15bb5),
                             ),
-                            onPressed: () {
+                            bubblesColor: const BubblesColor(
+                              dotPrimaryColor: Color(0xff9b5de5),
+                              dotSecondaryColor: Color(0xfff15bb5),
+                            ),
+                            likeBuilder: (bool isLiked) {
+                              return Icon(
+                                isLiked
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: isLiked ? Colors.purple : Colors.grey,
+                                size: 24,
+                              );
+                            },
+                            onTap: (isLiked) async {
                               final wishlistCubit = context
                                   .read<WishlistCubit>();
-                              if (isInWishlist) {
+                              if (isLiked) {
                                 wishlistCubit.removeFromWishlist(
                                   widget.product,
                                 );
@@ -109,6 +121,7 @@ class _GridWidgetState extends State<GridWidget> {
                                     duration: Duration(milliseconds: 500),
                                   ),
                                 );
+                                return false;
                               } else {
                                 wishlistCubit.addToWishlist(widget.product);
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -119,6 +132,7 @@ class _GridWidgetState extends State<GridWidget> {
                                     duration: Duration(milliseconds: 500),
                                   ),
                                 );
+                                return true;
                               }
                             },
                           ),

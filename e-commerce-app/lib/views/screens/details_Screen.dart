@@ -577,7 +577,6 @@ Widget _buildLatestReviewCard(ReviewModel review, double averageRating) {
 
         const SizedBox(height: 8),
 
-        // Review text
         Text(
           review.experience,
           maxLines: 2,
@@ -593,13 +592,10 @@ Widget _buildStarRating(double rating) {
   return Row(
     children: List.generate(5, (index) {
       if (index < rating.floor()) {
-        // Full star
         return Icon(Icons.star, color: Colors.orange[400], size: 16);
       } else if (index < rating.ceil() && rating.floor() != rating.ceil()) {
-        // Half star
         return Icon(Icons.star_half, color: Colors.orange[400], size: 16);
       } else {
-        // Empty star
         return Icon(Icons.star_border, color: Colors.orange[400], size: 16);
       }
     }),
